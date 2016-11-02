@@ -1,6 +1,9 @@
+var socket = io();
+
 data = [
   [Date.now(), Math.random() * 1024]
 ];
+
 setInterval(function() {
   data.push([Date.now(), Math.random() * 1024]);
   if (data.length > 128 * 5) {
