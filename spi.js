@@ -21,6 +21,7 @@ pulseSPI.start = function(server, freq){
       } else {
         var v = ((d[0]<<8) + d[1]) & 0x03FF
         console.log(v, "Got \""+v.toString()+"\" back.");
+        io.emit("data", v);
       }
   	  });
   }, 1000 / freq);
