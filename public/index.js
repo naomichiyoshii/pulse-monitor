@@ -53,7 +53,7 @@ var chart = Highcharts.chart('container', {
 
 socket.on('data', function(raw_data) {
   chart.series[0].addPoint(raw_data);
-  if (chart.series[0].data.length > 32 * 5) {
+  while (chart.series[0].data.length > 32 * 5) {
     chart.series[0].removePoint(0);
   }
 });
