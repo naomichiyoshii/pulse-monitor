@@ -3,7 +3,14 @@ var spi = SPI.initialize("/dev/spidev0.0");
 var MCP3002 = Buffer([0x68, 0]);
 
 var pulseSPI = {};
-pulseSPI.start = function(freq){
+pulseSPI.start = function(server, freq){
+  var io = require('socket.io')(server);
+  io.on('connection', function(socket){
+    console.log('a user connected');
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
+  });
   if (!freq) {
     var freq = 128;
   }
