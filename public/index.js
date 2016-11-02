@@ -1,9 +1,6 @@
 var socket = io();
-socket.on('connection', function(socket){
-  console.log("Connect to server");
-  socket.on('data', function(raw_data){
-    console.log('data: ' + raw_data);
-  });
+socket.on('data', function(raw_data) {
+  console.log('data: ' + raw_data);
 });
 
 data = [
