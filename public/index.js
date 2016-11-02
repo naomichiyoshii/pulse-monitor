@@ -1,5 +1,4 @@
 var socket = io();
-var data = [];
 var chart = Highcharts.chart('container', {
   chart: {
     type: 'spline'
@@ -48,14 +47,13 @@ var chart = Highcharts.chart('container', {
   },
   series: [{
     name: 'RRI',
-    data: data
+    data: []
   }]
 });
 
 socket.on('data', function(raw_data) {
-  data.push(raw_data);
-  while (data.length > 32 * 5) {
-    data.splice(0, 1);
+  chart.series[0].addPoint(raw_data);
+  while (chart.series[0].data.length > 16 * 5) {
+    chart.series[0].removePoint(0);
   }
-  chart.series[0].setData(data);
 });
