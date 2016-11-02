@@ -1,14 +1,12 @@
 var socket = io();
-socket.on('data', function(raw_data) {
-  console.log('data: ' + raw_data);
-});
 
 data = [
   [Date.now(), Math.random() * 1024]
 ];
 
-setInterval(function() {
-  data.push([Date.now(), Math.random() * 1024]);
+socket.on('data', function(raw_data) {
+  console.log('data: ' + raw_data);
+  data.push([Date.now(), raw_data]);
   if (data.length > 128 * 5) {
     data.splice(0, 1);
   }
@@ -63,4 +61,4 @@ setInterval(function() {
       data: data
     }]
   });
-}, 1000 / 128);
+});
