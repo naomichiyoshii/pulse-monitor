@@ -47,13 +47,11 @@ var chart = Highcharts.chart('container', {
   },
   series: [{
     name: 'RRI',
-    data: []
+    data: [512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512]
   }]
 });
 
 socket.on('data', function(raw_data) {
+  chart.series[0].removePoint(0);
   chart.series[0].addPoint(raw_data);
-  while (chart.series[0].data.length > 16 * 5) {
-    chart.series[0].removePoint(0);
-  }
 });
