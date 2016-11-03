@@ -23,11 +23,9 @@ pulseSPI.start = function(server, freq) {
         console.error(e);
       } else {
         var v = ((d[0] << 8) + d[1]) & 0x03FF
-        console.log(v, "Got \"" + v.toString() + "\" back.");
-        io.emit("data", v);
         data.push(v);
-        if (data.length > 16) {
-          data.splice(0, data.length - 16);
+        if (data.length > freq) {
+          data.splice(0, data.length - freq);
           var phasors = fft(data);
           var frequencies = fftUtil.fftFreq(phasors, freq); // Sample rate and coef is just used for length, and frequency step
           var magnitudes = fftUtil.fftMag(phasors);
@@ -37,7 +35,10 @@ pulseSPI.start = function(server, freq) {
               magnitude: magnitudes[ix]
             };
           });
+          io.emit("data", data);
           io.emit("fft", both);
+          data.splice(0, freq / 2);
+          console.log(Date.now());
         }
       }
     });

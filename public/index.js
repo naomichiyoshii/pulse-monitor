@@ -36,18 +36,16 @@ var chart = Highcharts.chart('container', {
     valueSuffix: 'ms'
   },
   plotOptions: {
-    spline: {
+    series: {
+      animation: false,
       marker: {
         enabled: false
       }
-    },
-    series: {
-      animation: false
     }
   },
   series: [{
     name: 'RRI',
-    data: [512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512]
+    data: []
   }]
 });
 var fft_chart = Highcharts.chart('fft', {
@@ -60,7 +58,7 @@ var fft_chart = Highcharts.chart('fft', {
   },
   xAxis: {
     title: {
-      text: 'frequency(kHz)'
+      text: 'frequency(Hz)'
     },
     plotLines: [{
       value: 0,
@@ -94,8 +92,7 @@ var fft_chart = Highcharts.chart('fft', {
   }]
 });
 socket.on('data', function(raw_data) {
-  chart.series[0].removePoint(0);
-  chart.series[0].addPoint(raw_data);
+  chart.series[0].setData(raw_data);
 });
 socket.on('fft', function(fft_data) {
   var fft_categories = [];

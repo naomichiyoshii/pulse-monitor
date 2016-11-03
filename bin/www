@@ -27,7 +27,7 @@ var server = http.createServer(app);
  * start getting data from A/D converter
  */
 
-pulseSPI.start(server, 16);
+pulseSPI.start(server, 512);
 // 取得する周波数を引数で指定する。省略可。デフォルトは128。
 // pulseSPI.start(server);
 
