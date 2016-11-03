@@ -28,7 +28,7 @@ pulseSPI.start = function(server, freq) {
         data.push(v);
         if (data.length > 16) {
           data.splice(0, data.length - 16);
-          var phasors = fft(signal);
+          var phasors = fft(data);
           var frequencies = fftUtil.fftFreq(phasors, freq); // Sample rate and coef is just used for length, and frequency step
           var magnitudes = fftUtil.fftMag(phasors);
           var both = frequencies.map(function(f, ix) {
