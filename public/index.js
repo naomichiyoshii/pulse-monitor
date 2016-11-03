@@ -1,6 +1,7 @@
 var socket = io();
 var chart = Highcharts.chart('container', {
   chart: {
+    animation: false,
     type: 'spline'
   },
   title: {
@@ -37,7 +38,6 @@ var chart = Highcharts.chart('container', {
   },
   plotOptions: {
     series: {
-      animation: false,
       marker: {
         enabled: false
       }

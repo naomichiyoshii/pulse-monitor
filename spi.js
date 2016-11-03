@@ -24,19 +24,21 @@ pulseSPI.start = function(server, freq) {
       } else {
         var v = ((d[0] << 8) + d[1]) & 0x03FF
         data.push(v);
-        if (data.length > freq) {
-          data.splice(0, data.length - freq);
-          var phasors = fft(data);
-          var frequencies = fftUtil.fftFreq(phasors, freq); // Sample rate and coef is just used for length, and frequency step
+        if (data.length > 512) {
+          data.splice(0,1);
+        }
+        if (data.length > 1) {
+          var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
+          var phasors = fft(args);
+          var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
           var magnitudes = fftUtil.fftMag(phasors);
-          io.emit("data", data);
+          io.emit("data", args);
           io.emit("fft", frequencies, magnitudes);
-          data.splice(0, freq / 2);
           console.log(Date.now());
         }
       }
     });
-  }, 1000 / freq);
+  }, 1000);
 };
 
 module.exports = pulseSPI;
