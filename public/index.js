@@ -47,7 +47,7 @@ var chart = Highcharts.chart('container', {
   },
   series: [{
     name: 'RRI',
-    data: [512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512]
+    data: [512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512, 512]
   }]
 });
 var fft_chart = Highcharts.chart('fft', {
@@ -103,7 +103,12 @@ socket.on('data', function(raw_data) {
   chart.series[0].addPoint(raw_data);
 });
 socket.on('fft', function(fft_data) {
+  var fft_categories = [];
   var fft_series = [];
-
-  chart.series[0].setData(fft_series);
+  fft_data.forEach(function(element, index, array) {
+    fft_categories.push(element.frequency);
+    fft_series.push(element.magnitude);
+  });
+  fft_chart.xAxis[0].setCategories(fft_categories);
+  fft_chart.series[0].setData(fft_series);
 });
