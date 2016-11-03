@@ -29,14 +29,8 @@ pulseSPI.start = function(server, freq) {
           var phasors = fft(data);
           var frequencies = fftUtil.fftFreq(phasors, freq); // Sample rate and coef is just used for length, and frequency step
           var magnitudes = fftUtil.fftMag(phasors);
-          var both = frequencies.map(function(f, ix) {
-            return {
-              frequency: f,
-              magnitude: magnitudes[ix]
-            };
-          });
           io.emit("data", data);
-          io.emit("fft", both);
+          io.emit("fft", frequencies, magnitudes);
           data.splice(0, freq / 2);
           console.log(Date.now());
         }
