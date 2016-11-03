@@ -62,9 +62,6 @@ var fft_chart = Highcharts.chart('fft', {
     title: {
       text: 'frequency(kHz)'
     },
-    labels: {
-      enabled: false
-    },
     plotLines: [{
       value: 0,
       width: 1,
@@ -75,7 +72,7 @@ var fft_chart = Highcharts.chart('fft', {
     title: {
       text: 'power'
     },
-    max: 1024,
+    max: 18000,
     min: 0,
     plotLines: [{
       value: 0,
@@ -84,13 +81,11 @@ var fft_chart = Highcharts.chart('fft', {
     }]
   },
   plotOptions: {
-    spline: {
+    series: {
+      animation: false,
       marker: {
         enabled: false
       }
-    },
-    series: {
-      animation: false
     }
   },
   series: [{
