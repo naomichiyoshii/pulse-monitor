@@ -13,6 +13,8 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "fft-js": "0.0.9",
+    "google-auth-library": "^0.9.9",
+    "googleapis": "^14.1.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
   }
