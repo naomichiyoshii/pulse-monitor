@@ -18,7 +18,7 @@ listMajors();
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
 function listMajors() {
-  var sheets = google.sheets('V4');
+  var sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
     auth: API_KEY,
     spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
