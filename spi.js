@@ -4,6 +4,7 @@ var MCP3002 = Buffer([0x68, 0]);
 var fft = require('fft-js').fft;
 var fftUtil = require('fft-js').util;
 var data = [];
+var oldData = 512;
 
 var pulseSPI = {};
 pulseSPI.start = function(server, freq) {
@@ -22,7 +23,8 @@ pulseSPI.start = function(server, freq) {
       if (e) {
         console.error(e);
       } else {
-        var v = ((d[0] << 8) + d[1]) & 0x03FF
+        var v = (oldData * 0.9) + (((d[0] << 8) + d[1]) & 0x03FF * 0.1);
+        oldData = v;
         data.push(v);
         if (data.length > 512) {
           data.splice(0,1);
@@ -38,7 +40,7 @@ pulseSPI.start = function(server, freq) {
         }
       }
     });
-  }, 1000);
+  }, 100);
 };
 
 module.exports = pulseSPI;
