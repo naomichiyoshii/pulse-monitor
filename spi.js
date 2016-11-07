@@ -23,8 +23,7 @@ pulseSPI.start = function(server, freq) {
       if (e) {
         console.error(e);
       } else {
-        var v = (oldData * 0.9) + (((d[0] << 8) + d[1]) & 0x03FF * 0.1);
-        oldData = v;
+        var v = ((d[0] << 8) + d[1]) & 0x03FF;
         data.push(v);
         if (data.length > 512) {
           data.splice(0,1);
