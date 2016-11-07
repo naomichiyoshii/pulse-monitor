@@ -5,6 +5,10 @@ var fft = require('fft-js').fft;
 var fftUtil = require('fft-js').util;
 var data = [];
 var oldData = 512;
+var boo = new Boolean(false);
+var lastTime = 0;
+var RRI = 0;
+var BL = 340;
 
 var pulseSPI = {};
 pulseSPI.start = function(server, freq) {
@@ -24,7 +28,20 @@ pulseSPI.start = function(server, freq) {
         console.error(e);
       } else {
         var v = ((d[0] << 8) + d[1]) & 0x03FF;
-        data.push(v);
+        if(v > BL && !boo){
+          if(v < lastv){
+            boo = true;
+            var nowTime = new Date();
+            if(lastTime != 0){
+              RRI = nowTime - lastTime;
+              data.push(RRI);
+            }
+            lastTime = nowTime;
+          }
+          lastv = v;
+        }else if (v < BL && boo) {
+          boo = false;
+        }
         if (data.length > 512) {
           data.splice(0,1);
         }
