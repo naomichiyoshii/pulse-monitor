@@ -15,6 +15,7 @@
     "fft-js": "0.0.9",
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",
+    "gpio": "^0.2.7",
     "morgan": "~1.7.0",
     "pi-spi": "^1.0.1",
     "serve-favicon": "~2.3.0"
