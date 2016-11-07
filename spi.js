@@ -9,6 +9,7 @@ var boo = new Boolean(false);
 var lastTime = 0;
 var RRI = 0;
 var BL = 340;
+var lastv = 0;
 var gpio = require("gpio");
 var gpio4;
 
