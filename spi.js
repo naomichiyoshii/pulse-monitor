@@ -54,8 +54,9 @@ pulseSPI.start = function(server, freq) {
 
 process.on('SIGINT', function() {
   console.log("Stop server");
-  gpio4.set(0);
-  process.exit();
+  gpio4.set(0, function(){
+    process.exit();
+  });
 });
 
 module.exports = pulseSPI;
