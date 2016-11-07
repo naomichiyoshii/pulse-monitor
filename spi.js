@@ -36,6 +36,11 @@ pulseSPI.start = function(server, freq) {
               console.error(e);
             } else {
               var v = ((d[0] << 8) + d[1]) & 0x03FF;
+var txt = "";
+for(var i = 0; i < v/8; i++){
+txt+="*";
+}
+console.log(txt);
               if(v > BL && !boo){
                 if(v < lastv){
                   boo = true;
@@ -60,7 +65,6 @@ pulseSPI.start = function(server, freq) {
                 var magnitudes = fftUtil.fftMag(phasors);
                 io.emit("data", args);
                 io.emit("fft", frequencies, magnitudes);
-                console.log(Date.now());
               }
             }
           });
