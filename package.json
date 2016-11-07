@@ -16,6 +16,7 @@
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",
     "morgan": "~1.7.0",
+    "pi-spi": "^1.0.1",
     "serve-favicon": "~2.3.0"
   }
 }
