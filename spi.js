@@ -6,11 +6,11 @@ var fftUtil = require('fft-js').util;
 var data = [];
 var oldData = 512;
 var gpio = require("gpio");
+var gpio4;
 
 var pulseSPI = {};
 pulseSPI.start = function(server, freq) {
-
-  var gpio4 = gpio.export(4, {
+  gpio4 = gpio.export(4, {
     direction: 'out',
     ready: function() {
       gpio4.set(function() {
@@ -51,5 +51,11 @@ pulseSPI.start = function(server, freq) {
     }
   });
 };
+
+process.on('SIGINT', function() {
+  console.log("Stop server");
+  gpio4.unexport();
+  process.exit();
+});
 
 module.exports = pulseSPI;
