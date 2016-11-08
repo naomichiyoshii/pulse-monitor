@@ -2,14 +2,20 @@
 'use strict'
 
 const os = require('os');
+var Slack = require('node-slack');
+var slack = new Slack("https://hooks.slack.com/services/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");
+
 let interfaces = os.networkInterfaces();
 let mes = '';
 
 for (let dev in interfaces) {
-    interfaces[dev].forEach((details) => {
-        if (details.internal || details.family !== 'IPv4') return;
+  interfaces[dev].forEach((details) => {
+    if (details.internal || details.family !== 'IPv4') return;
 
-        mes = `${os.hostname()}:${details.address} (standup)`;
-        console.log(mes);
+    mes = `${os.hostname()}:${details.address} (standup)`;
+    slack.send({
+      text: 'Raspberry Pi booted on ' + mes
     });
+    console.log(mes);
+  });
 }
