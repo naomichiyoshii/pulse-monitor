@@ -12,9 +12,9 @@ for (let dev in interfaces) {
   interfaces[dev].forEach((details) => {
     if (details.internal || details.family !== 'IPv4') return;
 
-    mes = `${os.hostname()}:${details.address} (standup)`;
+    mes = `${os.hostname()} booted on <${details.address}|${details.address}>`;
     slack.send({
-      text: 'Raspberry Pi booted on ' + mes
+      text: mes
     });
     console.log(mes);
   });
