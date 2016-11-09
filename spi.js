@@ -6,9 +6,12 @@ var fftUtil = require('fft-js').util;
 var data = [];
 var oldData = 512;
 var boo = new Boolean(false);
-var lastTime = 0;
+var LastTime = 0;
+var MasterTime = 0;
 var RRI = 0;
+var lastRRI = 0;
 var BL = 340;
+var x = 1000;
 var gpio = require("gpio");
 var gpio4;
 
@@ -38,12 +41,20 @@ pulseSPI.start = function(server, freq) {
               if(v > BL && !boo){
                 if(v < lastv){
                   boo = true;
-                  var nowTime = new Date();
-                  if(lastTime != 0){
-                    RRI = nowTime - lastTime;
-                    data.push(RRI);
+                  var NowTime = new Date();
+                  if(LastTime == 0){
+                    LastTime = NowTime;
+                    MasterTime = NowTime;
+                  }else{
+                  lastRRI = RRI;
+                  RRI = NowTime - LastTime;
+                  if(NowTime - MasterTime > x){
+                    var y = lastRRI + ((RRI - lastRRI) * (x - LastTime)) / (NowTime - MasterTime) - (LastTime - MasterTime);
+                    data.push(y);
+                    x += 1000;
                   }
-                  lastTime = nowTime;
+                  LastTime = NowTime;
+                }
                 }
                 lastv = v;
               }else if (v < BL && boo) {
@@ -64,6 +75,19 @@ pulseSPI.start = function(server, freq) {
             }
           });
         }, 100);
+
+        setInterval(function() {
+          if(RRI.length > 1){
+            var num = Math.floor( RRI.length / 2);
+            for(int i = 0; i < num; i += 2;){
+              if(){
+                data.push();
+
+
+              }
+            }
+          }
+        }, 500);
       });
     }
   });
