@@ -17,6 +17,7 @@
     "googleapis": "^14.1.0",
     "gpio": "^0.2.7",
     "morgan": "~1.7.0",
+    "node-slack": "0.0.7",
     "pi-spi": "^1.0.1",
     "serve-favicon": "~2.3.0"
   }

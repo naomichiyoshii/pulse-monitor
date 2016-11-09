@@ -25,7 +25,7 @@ var chart = Highcharts.chart('container', {
     title: {
       text: 'RRI(ms)'
     },
-    max: 1024,
+    max: 1500,
     min: 0,
     plotLines: [{
       value: 0,
