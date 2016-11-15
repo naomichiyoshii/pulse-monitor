@@ -7,8 +7,11 @@ var data = [];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
+var masterTime = 0;
 var RRI = 0;
+var lastRRI = 0;
 var BL = 340;
+var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
 var gpio4;
@@ -36,25 +39,35 @@ pulseSPI.start = function(server, freq) {
               console.error(e);
             } else {
               var v = ((d[0] << 8) + d[1]) & 0x03FF;
-var txt = "";
-for(var i = 0; i < v/8; i++){
-txt+="*";
-}
-console.log(txt);
-              if(v > BL && !boo){
-                if(v < lastv){
-                  boo = true;
-                  var nowTime = new Date();
-                  if(lastTime != 0){
-                    RRI = nowTime - lastTime;
-                    data.push(RRI);
+              var txt = "";
+              for(var i = 0; i < v/8; i++){
+                txt+="*";
                   }
-                  lastTime = nowTime;
-                }
-                lastv = v;
-              }else if (v < BL && boo) {
-                boo = false;
-              }
+              //console.log(txt);
+              if(v > BL && !boo){
+                 if(v < lastv){
+                   boo = true;
+                   var nowTime = new Date();
+                   if(lastTime == 0){
+                     lastTime =　nowTime;
+                     masterTime = nowTime;
+                   }else{
+                      lastRRI = RRI;
+                      RRI = nowTime - lastTime;
+console.log("RRI: " + RRI)
+                      if(nowTime - masterTime > x){
+                        var y = lastRRI + (x + (masterTime - lastTime)) *(RRI - lastRRI) / (nowTime - lastTime);
+console.log("線形補間" + y);
+                        data.push(y)
+                        x += 1000;
+                             }
+                     lastTime = nowTime;
+                          }
+                        }
+                   lastv = v;
+                 }else if(v < BL && boo){
+                     boo = false;
+                     }
               if (data.length > 512) {
                 data.splice(0, 1);
               }
