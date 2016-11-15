@@ -43,7 +43,7 @@ pulseSPI.start = function(server, freq) {
               for(var i = 0; i < v/8; i++){
                 txt+="*";
                   }
-              //console.log(txt);
+              console.log(txt);
               if(v > BL && !boo){
                  if(v < lastv){
                    boo = true;
@@ -82,6 +82,19 @@ console.log("線形補間" + y);
             }
           });
         }, 100);
+
+        setInterval(function() {
+          if(RRI.length > 1){
+            var num = Math.floor( RRI.length / 2);
+            for(int i = 0; i < num; i += 2;){
+              if(){
+                data.push();
+
+
+              }
+            }
+          }
+        }, 500);
       });
     }
   });
