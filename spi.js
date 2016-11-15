@@ -52,15 +52,17 @@ console.log(txt);
                     lastTime = nowTime;
                     masterTime = nowTime;
                   }else{
-                  lastRRI = RRI;
-                  RRI = nowTime - lastTime;
-                  console.log("RRI: " + RRI);
-                  if(nowTime - masterTime > x){
-                    var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                    console.log("線形補間: " + y);
-                    data.push(y);
-                    x += 1000;
-                  }
+                    if (nowTime - lastTime > 200) {
+                      lastRRI = RRI;
+                      RRI = nowTime - lastTime;
+                      console.log("RRI: " + RRI);
+                      if(nowTime - masterTime > x){
+                        var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+                        console.log("線形補間: " + y);
+                        data.push(y);
+                        x += 1000;
+                      }
+                    }
                   lastTime = nowTime;
                 }
                 }
