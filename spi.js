@@ -52,7 +52,6 @@ pulseSPI.start = function(server, freq) {
                     lastTime = nowTime;
                     masterTime = nowTime;
                   }else{
-                    if (nowTime - lastTime > 200) {
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
                       console.log("RRI: " + RRI);
@@ -62,9 +61,8 @@ pulseSPI.start = function(server, freq) {
                         data.push(y);
                         x += 1000;
                       }
-                    }
-                  lastTime = nowTime;
-                }
+                      lastTime = nowTime;
+                  }
                 }
                 lastv = v;
               }else if (v < BL && boo) {
@@ -83,20 +81,7 @@ pulseSPI.start = function(server, freq) {
               }
             }
           });
-        }, 100);
-
-        setInterval(function() {
-          if(RRI.length > 1){
-            var num = Math.floor( RRI.length / 2);
-            for(int i = 0; i < num; i += 2;){
-              if(){
-                data.push();
-
-
-              }
-            }
-          }
-        }, 500);
+        }, 10);
       });
     }
   });
