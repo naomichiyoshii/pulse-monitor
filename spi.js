@@ -6,8 +6,8 @@ var fftUtil = require('fft-js').util;
 var data = [];
 var oldData = 512;
 var boo = new Boolean(false);
-var LastTime = 0;
-var MasterTime = 0;
+var lastTime = 0;
+var masterTime = 0;
 var RRI = 0;
 var lastRRI = 0;
 var BL = 340;
@@ -47,19 +47,21 @@ console.log(txt);
               if(v > BL && !boo){
                 if(v < lastv){
                   boo = true;
-                  var NowTime = new Date();
+                  var nowTime = new Date();
                   if(LastTime == 0){
-                    LastTime = NowTime;
-                    MasterTime = NowTime;
+                    lastTime = nowTime;
+                    masterTime = nowTime;
                   }else{
                   lastRRI = RRI;
-                  RRI = NowTime - LastTime;
-                  if(NowTime - MasterTime > x){
-                    var y = lastRRI + ((RRI - lastRRI) * (x - LastTime)) / (NowTime - MasterTime) - (LastTime - MasterTime);
+                  RRI = nowTime - lastTime;
+                  console.log("RRI: " + RRI);
+                  if(nowTime - masterTime > x){
+                    var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+                    console.log("線形補間: " + y);
                     data.push(y);
                     x += 1000;
                   }
-                  LastTime = NowTime;
+                  lastTime = nowTime;
                 }
                 }
                 lastv = v;
