@@ -11,11 +11,8 @@ var MasterTime = 0;
 var RRI = 0;
 var lastRRI = 0;
 var BL = 340;
-<<<<<<< HEAD
 var x = 1000;
-=======
 var lastv = 0;
->>>>>>> d1b6e8ed6165a02b02705fd514629647dfca1018
 var gpio = require("gpio");
 var gpio4;
 
