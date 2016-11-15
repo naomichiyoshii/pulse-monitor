@@ -4,17 +4,20 @@ var MCP3002 = Buffer([0x68, 0]);
 var fft = require('fft-js').fft;
 var fftUtil = require('fft-js').util;
 var data = [];
+var data2 =[];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
 var masterTime = 0;
 var RRI = 0;
 var lastRRI = 0;
-var BL = 340;
+var BL = 500;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
 var gpio4;
+var before_v = 0;
+var lowpath = 0.3;
 
 var pulseSPI = {};
 
@@ -38,32 +41,44 @@ pulseSPI.start = function(server, freq) {
             if (e) {
               console.error(e);
             } else {
-              var v = ((d[0] << 8) + d[1]) & 0x03FF;
+              if(before_v == 0){
+                 var v = ((d[0] << 8) + d[1]) & 0x03FF;
+                 before_v = v;
+              }else{
+                 v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+                 before_v = v;
+                  }
+              console.log(v);
+              data2.push(v);
               var txt = "";
               for(var i = 0; i < v/8; i++){
                 txt+="*";
                   }
-              console.log(txt);
+             // console.log(txt);
               if(v > BL && !boo){
                 if(v < lastv){
                   boo = true;
                   var nowTime = new Date();
-                  if(LastTime == 0){
+                  if(lastTime == 0){
                     lastTime = nowTime;
                     masterTime = nowTime;
                   }else{
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
-                      console.log("RRI: " + RRI);
+                      if(nowTime - masterTime > x + 1000){
+                         x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
+                            }
                       if(nowTime - masterTime > x){
+                        //console.log(nowTime - masterTime);
                         var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
                         console.log("線形補間: " + y);
                         data.push(y);
                         x += 1000;
-                      }
+                            }
+                      console.log("RRI: " + RRI);
                       lastTime = nowTime;
-                  }
-                }
+                      }
+                    }
                 lastv = v;
               }else if (v < BL && boo) {
                 boo = false;
@@ -77,11 +92,12 @@ pulseSPI.start = function(server, freq) {
                 var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
                 var magnitudes = fftUtil.fftMag(phasors);
                 io.emit("data", args);
-                io.emit("fft", frequencies, magnitudes);
+                io.	emit("fft", frequencies, magnitudes);
+                io.emit("data2", data2);
               }
             }
           });
-        }, 10);
+        }, 100);
       });
     }
   });

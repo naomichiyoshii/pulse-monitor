@@ -1,4 +1,53 @@
 var socket = io();
+var vchart = Highcharts.chart('rawdata', {
+  chart: {
+    animation: false,
+    type: 'spline'
+  },
+  title: {
+    text: '心拍生データ',
+    x: -20 //center
+  },
+  xAxis: {
+    title: {
+      text: 'time(ms)'
+    },
+    labels: {
+      enabled: false
+    },
+    plotLines: [{
+      value: 0,
+      width: 1,
+      color: '#808080'
+    }]
+  },
+  yAxis: {
+    title: {
+      text: 'power(v)'
+    },
+    max: 1500,
+    min: 0,
+    plotLines: [{
+      value: 0,
+      width: 1,
+      color: '#808080'
+    }]
+  },
+  tooltip: {
+    valueSuffix: 'ms'
+  },
+  plotOptions: {
+    series: {
+      marker: {
+        enabled: false
+      }
+    }
+  },
+  series: [{
+    name: 'rawdata',
+    data: []
+  }]
+});
 var chart = Highcharts.chart('container', {
   chart: {
     animation: false,
@@ -90,6 +139,9 @@ var fft_chart = Highcharts.chart('fft', {
     name: 'Power',
     data: []
   }]
+});
+socket.on('data2', function(raw_data) {
+  vchart.series[0].setData(raw_data);
 });
 socket.on('data', function(raw_data) {
   chart.series[0].setData(raw_data);
