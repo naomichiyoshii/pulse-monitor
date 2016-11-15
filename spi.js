@@ -45,29 +45,31 @@ pulseSPI.start = function(server, freq) {
                   }
               console.log(txt);
               if(v > BL && !boo){
-                 if(v < lastv){
-                   boo = true;
-                   var nowTime = new Date();
-                   if(lastTime == 0){
-                     lastTime =　nowTime;
-                     masterTime = nowTime;
-                   }else{
+                if(v < lastv){
+                  boo = true;
+                  var nowTime = new Date();
+                  if(LastTime == 0){
+                    lastTime = nowTime;
+                    masterTime = nowTime;
+                  }else{
+                    if (nowTime - lastTime > 200) {
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
-console.log("RRI: " + RRI)
+                      console.log("RRI: " + RRI);
                       if(nowTime - masterTime > x){
-                        var y = lastRRI + (x + (masterTime - lastTime)) *(RRI - lastRRI) / (nowTime - lastTime);
-console.log("線形補間" + y);
-                        data.push(y)
+                        var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+                        console.log("線形補間: " + y);
+                        data.push(y);
                         x += 1000;
-                             }
-                     lastTime = nowTime;
-                          }
-                        }
-                   lastv = v;
-                 }else if(v < BL && boo){
-                     boo = false;
-                     }
+                      }
+                    }
+                  lastTime = nowTime;
+                }
+                }
+                lastv = v;
+              }else if (v < BL && boo) {
+                boo = false;
+              }
               if (data.length > 512) {
                 data.splice(0, 1);
               }
