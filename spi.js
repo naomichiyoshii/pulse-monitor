@@ -57,14 +57,18 @@ pulseSPI.start = function(server, freq) {
              // console.log(txt);
               if(v > BL && !boo){
                 if(v < lastv){
-                  boo = true;
                   var nowTime = new Date();
                   if(lastTime == 0){
                     lastTime = nowTime;
                     masterTime = nowTime;
+                    boo = true;
                   }else{
+                      if(lastRRI != 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+                        break;
+                      }
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
+                      boo = true;
                       if(nowTime - masterTime > x + 1000){
                          x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
                             }
