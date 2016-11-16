@@ -9,15 +9,19 @@ var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
 var masterTime = 0;
+var lowpath_v = 0;
 var RRI = 0;
-var lastRRI = 0;
-var BL = 500;
+var lastRRI = 0; 
+var skiptimes = 0;
+var lasty = 0;
+var y = 0;
+var BL = 300;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
 var gpio4;
 var before_v = 0;
-var lowpath = 0.3;
+var lowpath = 0.9;
 
 var pulseSPI = {};
 
@@ -45,8 +49,9 @@ pulseSPI.start = function(server, freq) {
                  var v = ((d[0] << 8) + d[1]) & 0x03FF;
                  before_v = v;
               }else{
-                 v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-                 before_v = v;
+                 lowpath_v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+                 before_v = lowpath_v;
+                 var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
                   }
               console.log(v);
               data2.push(v);
@@ -63,9 +68,11 @@ pulseSPI.start = function(server, freq) {
                     masterTime = nowTime;
                     boo = true;
                   }else{
-                      if(lastRRI != 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
-                        break;
-                      }
+                      if(lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+                         skiptimes += 1;
+                         return false;
+                            }
+                      skiptimes = 0;
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
                       boo = true;
@@ -74,9 +81,12 @@ pulseSPI.start = function(server, freq) {
                             }
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
-                        var y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                        console.log("線形補間: " + y);
-                        data.push(y);
+                        lasty =y;
+                        y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+                        if(lasty != 0 && (y > 350  && y < 1350) && ( y > lastRRI - 100 && y < lastRRI + 100 )){
+                          console.log("線形補間: " + y);
+                          data.push(y);
+                              }
                         x += 1000;
                             }
                       console.log("RRI: " + RRI);
@@ -101,7 +111,7 @@ pulseSPI.start = function(server, freq) {
               }
             }
           });
-        }, 100);
+        }, 50);
       });
     }
   });
