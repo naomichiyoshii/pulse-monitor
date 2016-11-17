@@ -7,7 +7,7 @@ var slack = new Slack("https://hooks.slack.com/services/T0YM9EDGF/B2ZN2TC5A/8wTs
 
 var slack_ip = {};
 
-slack_ip.start() = function() {
+slack_ip.start = function() {
   let interfaces = os.networkInterfaces();
   let mes = '';
   for (let dev in interfaces) {
