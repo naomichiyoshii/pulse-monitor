@@ -53,7 +53,7 @@ pulseSPI.start = function(server, freq) {
                  before_v = lowpath_v;
                  var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
                   }
-              if (data2.length > 1024) {
+              if (data2.length > 256) {
                 data2.splice(0, 1);
               }
               console.log(v);
@@ -86,18 +86,20 @@ pulseSPI.start = function(server, freq) {
                             }
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
-                        lasty =y;
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
                         if(lasty != 0 && (y > 350  && y < 1350) && ( y > lastRRI - 100 && y < lastRRI + 100 )){
+                          lasty = y;
                           console.log("線形補間: " + y);
                           data.push(y);
-                              }
+                        }else {
+                          console.log("線形補間: " + lasty);
+                          data.push(lasty);
+                        }
                         x += 1000;
-                            }
-                      console.log("RRI: " + RRI);
-                      lastTime = nowTime;
                       }
-                    }
+                      lastTime = nowTime;
+                  }
+                }
                 lastv = v;
               }else if (v < BL && boo) {
                 boo = false;
@@ -106,6 +108,7 @@ pulseSPI.start = function(server, freq) {
                 data.splice(0, 1);
               }
               if (data.length > 1) {
+                console.log("RRIデータ数: " + data.length);
                 var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
                 var phasors = fft(args);
                 var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
