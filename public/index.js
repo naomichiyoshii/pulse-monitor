@@ -1,4 +1,12 @@
 var socket = io();
+
+function startRRI(){
+  var ret = confirm("RRIの計測を開始します。よろしいですか？");
+  if(ret == true){
+
+  }
+}
+
 var vchart = Highcharts.chart('rawdata', {
   chart: {
     animation: false,
