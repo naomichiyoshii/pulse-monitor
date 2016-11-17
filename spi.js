@@ -53,7 +53,7 @@ pulseSPI.start = function(server, freq) {
                  before_v = lowpath_v;
                  var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
                   }
-              if (data2.length > 1024) {
+              if (data2.length > 256) {
                 data2.splice(0, 1);
               }
               console.log(v);
