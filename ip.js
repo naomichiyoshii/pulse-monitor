@@ -11,7 +11,7 @@ for (let dev in interfaces) {
   interfaces[dev].forEach((details) => {
     if (details.internal || details.family !== 'IPv4') return;
 
-    mes = `${os.hostname()} booted on <http://${details.address}:3000>`;
+    mes = `${os.hostname()} booted on <${details.address}>`;
     slack.send({
       text: mes
     });
