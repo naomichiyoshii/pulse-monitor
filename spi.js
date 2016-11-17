@@ -74,6 +74,7 @@ pulseSPI.start = function(server, freq) {
                       if(lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                         console.log("線形補間: " + y);
                         data.push(y);
+                        console.log("RRIデータ数: " + data.length);
                          skiptimes += 1;
                          return false;
                             }
@@ -87,13 +88,15 @@ pulseSPI.start = function(server, freq) {
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                        if(lasty != 0 && (y > 350  && y < 1350) && ( y > lastRRI - 100 && y < lastRRI + 100 )){
+                        if((y > 350  && y < 1350) && ( y > lastRRI - 100 && y < lastRRI + 100 )){
                           lasty = y;
                           console.log("線形補間: " + y);
                           data.push(y);
-                        }else {
+                          console.log("RRIデータ数: " + data.length);
+                        }else{
                           console.log("線形補間: " + lasty);
                           data.push(lasty);
+                          console.log("RRIデータ数: " + data.length);
                         }
                         x += 1000;
                       }
@@ -108,7 +111,6 @@ pulseSPI.start = function(server, freq) {
                 data.splice(0, 1);
               }
               if (data.length > 1) {
-                console.log("RRIデータ数: " + data.length);
                 var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
                 var phasors = fft(args);
                 var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
