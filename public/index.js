@@ -3,7 +3,7 @@ var socket = io();
 function startRRI(){
   var ret = confirm("RRIの計測を開始します。よろしいですか？");
   if(ret == true){
-
+    pulseSPI.start(server, 512);
   }
 }
 
