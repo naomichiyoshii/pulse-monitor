@@ -45,19 +45,23 @@ pulseSPI.start = function(server, freq) {
             if (e) {
               console.error(e);
             } else {
-              if(before_v == 0){
-                 var v = ((d[0] << 8) + d[1]) & 0x03FF;
-                 before_v = v;
-              }else{
-                 lowpath_v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-                 before_v = lowpath_v;
-                 var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
-                  }
+              // if(before_v == 0){
+              //    var v = ((d[0] << 8) + d[1]) & 0x03FF;
+              //    before_v = v;
+              // }else{
+              //    lowpath_v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+              //    before_v = lowpath_v;
+              //    var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
+              //     }
+              // if (data2.length > 256) {
+              //   data2.splice(0, 1);
+              // }
+              var v = (((d[0] << 8) + d[1]) & 0x03FF);
+              console.log(v);
+              data2.push(v);
               if (data2.length > 256) {
                 data2.splice(0, 1);
               }
-              console.log(v);
-              data2.push(v);
               var txt = "";
               for(var i = 0; i < v/8; i++){
                 txt+="*";
@@ -88,7 +92,7 @@ pulseSPI.start = function(server, freq) {
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                        if((y > 350  && y < 1350) && ( y > lastRRI - 100 && y < lastRRI + 100 )){
+                        if((y > 350  && y < 1350) && ( y > lasty - 100 && y < lasty + 100 )){
                           lasty = y;
                           console.log("線形補間: " + y);
                           data.push(y);
