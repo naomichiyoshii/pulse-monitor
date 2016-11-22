@@ -55,7 +55,6 @@ pulseSPI.start = function(server, freq) {
                   }
               if (data2.length > 256) {
                 data2.splice(0, 1);
-                console.log("data2.length: " + data2.length);
               }
               console.log(v);
               data2.push(v);
@@ -73,19 +72,19 @@ pulseSPI.start = function(server, freq) {
                     boo = true;
                   }else{
                       if(lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
-                        console.log("線形補間: " + y);
-                        data.push(y);
+                        console.log("線形補間: " + lasty);
+                        data.push(lasty);
                         console.log("RRIデータ数: " + data.length);
-                         skiptimes += 1;
-                         return false;
-                            }
+                        skiptimes += 1;
+                        return false;
+                      }
                       skiptimes = 0;
                       lastRRI = RRI;
                       RRI = nowTime - lastTime;
                       boo = true;
                       if(nowTime - masterTime > x + 1000){
                          x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
-                            }
+                      }
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
