@@ -56,9 +56,16 @@ pulseSPI.start = function(server, freq) {
               // if (data2.length > 256) {
               //   data2.splice(0, 1);
               // }
-              var v = (((d[0] << 8) + d[1]) & 0x03FF);
-              console.log(v);
-              data2.push(v);
+              if(before_v == 0){
+                 var v = ((d[0] << 8) + d[1]) & 0x03FF;
+                 before_v = v;
+              }else{
+                var v = (((d[0] << 8) + d[1]) & 0x03FF);
+                lowpath_v =　(1 - lowpath) * before_v + lowpath * v;
+                before_v = lowpath_v;
+              }
+              console.log(lowpath_v);
+              data2.push(lowpath_v);
               if (data2.length > 256) {
                 data2.splice(0, 1);
               }
