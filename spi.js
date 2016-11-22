@@ -55,6 +55,7 @@ pulseSPI.start = function(server, freq) {
                   }
               if (data2.length > 256) {
                 data2.splice(0, 1);
+                console.log("data2.length: " + data2.length);
               }
               console.log(v);
               data2.push(v);
