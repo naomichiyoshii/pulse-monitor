@@ -9,7 +9,6 @@ var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
 var masterTime = 0;
-var lowpath_v = 0;
 var RRI = 0;
 var lastRRI = 0;
 var skiptimes = 0;
@@ -60,8 +59,7 @@ pulseSPI.start = function(server, freq) {
                  var v = ((d[0] << 8) + d[1]) & 0x03FF;
                  before_v = v;
               }else{
-                var v = (((d[0] << 8) + d[1]) & 0x03FF);
-                lowpath_v =　(1 - lowpath) * before_v + lowpath * v;
+                v =　(1 - lowpath) * before_v + lowpath * (((d[0] << 8) + d[1]) & 0x03FF);
                 before_v = lowpath_v;
               }
               console.log(lowpath_v);
@@ -69,11 +67,21 @@ pulseSPI.start = function(server, freq) {
               if (data2.length > 256) {
                 data2.splice(0, 1);
               }
-              var txt = "";
-              for(var i = 0; i < v/8; i++){
-                txt+="*";
+              if((v - before_v) < 0 ){
+                var nowTime = new Date();
+                if(lastTime == 0){
+                  lastTime = nowTime;
+                  //return false;
+                }else{
+                  RRI = nowTime - lastTime;
+                  if(lastRRI == 0){
+                    lastRRI = RRI;
+                  }else{
+
                   }
-             // console.log(txt);
+                }
+
+              }
               if(v > BL && !boo){
                 if(v < lastv){
                   var nowTime = new Date();
