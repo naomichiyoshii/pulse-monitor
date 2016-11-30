@@ -15,7 +15,7 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 650;
+var BL = 500;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -45,35 +45,27 @@ pulseSPI.start = function(server, freq) {
             if (e) {
               console.error(e);
             } else {
-              // if(before_v == 0){
-              //    var v = ((d[0] << 8) + d[1]) & 0x03FF;
-              //    before_v = v;
-              // }else{
-              //    lowpath_v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-              //    before_v = lowpath_v;
-              //    var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
-              //     }
-              // if (data2.length > 256) {
-              //   data2.splice(0, 1);
-              // }
               if(before_v == 0){
                  var v = ((d[0] << 8) + d[1]) & 0x03FF;
                  before_v = v;
               }else{
-                var v = (((d[0] << 8) + d[1]) & 0x03FF);
-                lowpath_v =　(1 - lowpath) * before_v + lowpath * v;
-                before_v = lowpath_v;
-              }
-              console.log(lowpath_v);
-              data2.push(lowpath_v);
+                 lowpath_v =　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+                 before_v = lowpath_v;
+                 var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
+                  }
+              // if(before_v == 0){
+              //    var v = ((d[0] << 8) + d[1]) & 0x03FF;
+              //    before_v = v;
+              // }else{
+              //   var v = (((d[0] << 8) + d[1]) & 0x03FF);
+              //   lowpath_v =　(1 - lowpath) * before_v + lowpath * v;
+              //   before_v = lowpath_v;
+              // }
+              console.log(v);
+              data2.push(v);
               if (data2.length > 256) {
                 data2.splice(0, 1);
               }
-              var txt = "";
-              for(var i = 0; i < v/8; i++){
-                txt+="*";
-                  }
-             // console.log(txt);
               if(v > BL && !boo){
                 if(v < lastv){
                   var nowTime = new Date();
