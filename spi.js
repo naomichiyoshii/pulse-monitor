@@ -91,7 +91,10 @@ pulseSPI.start = function(server, freq) {
                       if(nowTime - masterTime > x){
                         //console.log(nowTime - masterTime);
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                        if((y > 350  && y < 1350) && ( y > lasty - 100 && y < lasty + 100 )){
+                        if(lasty == 0 && (y > 350  && y < 1350)){
+                          lasty = y;
+                        }
+                        if(lasty != 0 && (y > 350  && y < 1350) && ( y > lasty - 100 && y < lasty + 100 )){
                           lasty = y;
                           console.log("線形補間: " + y);
                           data.push(y);
