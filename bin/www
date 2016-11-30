@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('pulse-monitor:server');
 var http = require('http');
-var pulseSPI = require('../spi');
+var pulseSPI = require('../testofspi');
 //var slack_ip = require('../ip');
 
 /**

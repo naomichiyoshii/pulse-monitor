@@ -94,7 +94,7 @@ pulseSPI.start = function(server, freq) {
                         if(lasty == 0 && (y > 350  && y < 1350)){
                           lasty = y;
                         }
-                        if(lasty != 0 && (y > 350  && y < 1350) && ( y > lasty - 100 && y < lasty + 100 )){
+                        if(lasty != 0 && (y > 350  && y < 1350) && ( y > (lasty/2) && y < (lasty*1.5) )){
                           lasty = y;
                           console.log("線形補間: " + y);
                           data.push(y);
