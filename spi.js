@@ -97,7 +97,6 @@ pulseSPI.start = function(server, freq) {
                          x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
                       }
                       if(nowTime - masterTime > x){
-                        //console.log(nowTime - masterTime);
                         y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
                         if(lasty == 0 && (y > 350  && y < 1350)){
                           lasty = y;
@@ -126,11 +125,11 @@ pulseSPI.start = function(server, freq) {
               }
               if (data.length > 1) {
                 my_sheet.useServiceAccountAuth(credentials, function(err){
-                    my_sheet.getInfo(function(err, data){
-                    sheet = data; //あとから使えるように外部スコープに保存
+                    my_sheet.getInfo(function(err, sheetsdata){
+                    sheet = sheetsdata; //あとから使えるように外部スコープに保存
                       for(var i in sheet.worksheets) {
                           if(sheet.worksheets[i].title === 'sheet3') {
-                              dataset["RRI"] = data[data.length-1];
+                              dataset["col1"] = data[data.length-1];
                               sheet.worksheets[i].addRow(dataset);
                           }
                       }
