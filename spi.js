@@ -29,12 +29,12 @@ var GoogleSpreadsheet = require('google-spreadsheet');
 var dataset = {};
 var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
 var credentials = require('./My Project-fe2e8436da48.json');
-var sheet;
 
 pulseSPI.start = function(server, freq) {
   my_sheet.useServiceAccountAuth(credentials, function(err){
       my_sheet.getInfo(function(err, sheetsdata){
-        sheet = sheetsdata; //あとから使えるように外部スコープに保存
+        var sheet = sheetsdata; //あとから使えるように外部スコープに保存
+        console.log(sheet.worksheets[2].title);
         gpio4 = gpio.export(4, {
           direction: 'out',
           ready: function() {
@@ -90,7 +90,7 @@ pulseSPI.start = function(server, freq) {
                               data.push(lasty);
                               dataset["col1"] = lasty;
                               sheet.worksheets[2].addRow(dataset);
-                              console.log("ワークシート: " + sheet.worksheets[2].title);
+                              console.log("push: lasty");
                               console.log("RRIデータ数: " + data.length);
                               skiptimes += 1;
                               return false;
@@ -113,14 +113,14 @@ pulseSPI.start = function(server, freq) {
                                 data.push(y);
                                 dataset["col1"] = y;
                                 sheet.worksheets[2].addRow(dataset);
-                                console.log("ワークシート: " + sheet.worksheets[2].title);
+                                console.log("push:  y" );
                                 console.log("RRIデータ数: " + data.length);
                               }else{
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
                                 dataset["col1"] = lasty;
                                 sheet.worksheets[2].addRow(dataset);
-                                console.log("ワークシート: " + sheet.worksheets[2].title);
+                                console.log("push: second lasty");
                                 console.log("RRIデータ数: " + data.length);
                               }
                               x += 1000;
