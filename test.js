@@ -21,6 +21,7 @@ my_sheet.useServiceAccountAuth(credentials, function(err){
               dataset["col2"] = "愛生";
               dataset["tiba"] = "千葉";
               sheet.worksheets[i].addRow(dataset);
+              console.log(sheet.worksheets[1].title);
           }
       }
     });

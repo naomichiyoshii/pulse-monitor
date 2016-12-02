@@ -15,7 +15,7 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 300;
+var BL = 350;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -90,7 +90,7 @@ pulseSPI.start = function(server, freq) {
                               data.push(lasty);
                               dataset["col1"] = lasty;
                               sheet.worksheets[2].addRow(dataset);
-                              console.log("ワークシート: " + sheet.worksheets[2]);
+                              console.log("ワークシート: " + sheet.worksheets[2].title);
                               console.log("RRIデータ数: " + data.length);
                               skiptimes += 1;
                               return false;
@@ -113,14 +113,14 @@ pulseSPI.start = function(server, freq) {
                                 data.push(y);
                                 dataset["col1"] = y;
                                 sheet.worksheets[2].addRow(dataset);
-                                console.log("ワークシート: " + sheet.worksheets[2]);
+                                console.log("ワークシート: " + sheet.worksheets[2].title);
                                 console.log("RRIデータ数: " + data.length);
                               }else{
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
                                 dataset["col1"] = lasty;
                                 sheet.worksheets[2].addRow(dataset);
-                                console.log("ワークシート: " + sheet.worksheets[2]);
+                                console.log("ワークシート: " + sheet.worksheets[2].title);
                                 console.log("RRIデータ数: " + data.length);
                               }
                               x += 1000;
