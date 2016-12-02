@@ -29,6 +29,7 @@ var GoogleSpreadsheet = require('google-spreadsheet');
 var dataset = {};
 var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
 var credentials = require('./My Project-fe2e8436da48.json');
+var sheet;
 
 pulseSPI.start = function(server, freq) {
   gpio4 = gpio.export(4, {
@@ -126,6 +127,7 @@ pulseSPI.start = function(server, freq) {
               if (data.length > 1) {
                 my_sheet.useServiceAccountAuth(credentials, function(err){
                     my_sheet.getInfo(function(err, data){
+                    sheet = data; //あとから使えるように外部スコープに保存
                       for(var i in sheet.worksheets) {
                           if(sheet.worksheets[i].title === 'sheet3') {
                               dataset["RRI"] = data[data.length-1];
