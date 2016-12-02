@@ -88,12 +88,8 @@ pulseSPI.start = function(server, freq) {
                             if(lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                               console.log("線形補間: " + lasty);
                               data.push(lasty);
-                              for(var i in sheet.worksheets) {
-                                  if(sheet.worksheets[i].title === 'sheet3') {
-                                      dataset["col1"] = lasty;
-                                      sheet.worksheets[i].addRow(dataset);
-                                  }
-                              }
+                              dataset["col1"] = lasty;
+                              sheet.worksheets[2].addRow(dataset);
                               console.log("RRIデータ数: " + data.length);
                               skiptimes += 1;
                               return false;
@@ -114,22 +110,14 @@ pulseSPI.start = function(server, freq) {
                                 lasty = y;
                                 console.log("線形補間: " + y);
                                 data.push(y);
-                                for(var i in sheet.worksheets) {
-                                    if(sheet.worksheets[i].title === 'sheet3') {
-                                        dataset["col1"] = y;
-                                        sheet.worksheets[i].addRow(dataset);
-                                    }
-                                }
+                                dataset["col1"] = y;
+                                sheet.worksheets[2].addRow(dataset);
                                 console.log("RRIデータ数: " + data.length);
                               }else{
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
-                                for(var i in sheet.worksheets) {
-                                    if(sheet.worksheets[i].title === 'sheet3') {
-                                        dataset["col1"] = lasty;
-                                        sheet.worksheets[i].addRow(dataset);
-                                    }
-                                }
+                                dataset["col1"] = lasty;
+                                sheet.worksheets[2].addRow(dataset);
                                 console.log("RRIデータ数: " + data.length);
                               }
                               x += 1000;
