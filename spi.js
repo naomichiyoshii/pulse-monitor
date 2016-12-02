@@ -84,14 +84,14 @@ pulseSPI.start = function(server, freq) {
                           masterTime = nowTime;
                           boo = true;
                         }else{
-                            if(lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1350) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+                            if(lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                               console.log("線形補間: " + lasty);
                               data.push(lasty);
-                              dataset["col1"] = lasty;
+                              dataset["col1"] = nowTime;
+                              dataset["col2"] = Math.floor(lasty);
                               sheet.worksheets[2].addRow(dataset);
                               console.log("push: lasty");
                               console.log("RRIデータ数: " + data.length);
-                              console.log(sheet.worksheets[2].title);
                               skiptimes += 1;
                               return false;
                             }
@@ -104,26 +104,26 @@ pulseSPI.start = function(server, freq) {
                             }
                             if(nowTime - masterTime > x){
                               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-                              if(lasty == 0 && (y > 350  && y < 1350)){
+                              if(lasty == 0 && (y > 350  && y < 1000)){
                                 lasty = y;
                               }
-                              if(lasty != 0 && (y > 350  && y < 1350) && ( y > (lasty/2) && y < (lasty*1.5) )){
+                              if(lasty != 0 && (y > 350  && y < 1000) && ( y > (lasty/2) && y < (lasty*1.5) )){
                                 lasty = y;
                                 console.log("線形補間: " + y);
                                 data.push(y);
-                                dataset["col1"] = y;
+                                dataset["col1"] = nowTime;
+                                dataset["col2"] = Math.floor(y);
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push:  y" );
                                 console.log("RRIデータ数: " + data.length);
-                                console.log(sheet.worksheets[2].title);
                               }else{
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
-                                dataset["col1"] = lasty;
+                                dataset["col1"] = nowTime;
+                                dataset["col2"] = Math.floor(lasty);
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push: second lasty");
                                 console.log("RRIデータ数: " + data.length);
-                                console.log(sheet.worksheets[2].title);
                               }
                               x += 1000;
                             }
