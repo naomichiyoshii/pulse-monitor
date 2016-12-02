@@ -34,7 +34,6 @@ pulseSPI.start = function(server, freq) {
   my_sheet.useServiceAccountAuth(credentials, function(err){
       my_sheet.getInfo(function(err, sheetsdata){
         var sheet = sheetsdata; //あとから使えるように外部スコープに保存
-        console.log(sheet.worksheets[2].title);
         gpio4 = gpio.export(4, {
           direction: 'out',
           ready: function() {
@@ -92,6 +91,7 @@ pulseSPI.start = function(server, freq) {
                               sheet.worksheets[2].addRow(dataset);
                               console.log("push: lasty");
                               console.log("RRIデータ数: " + data.length);
+                              console.log(sheet.worksheets[2].title);
                               skiptimes += 1;
                               return false;
                             }
@@ -115,6 +115,7 @@ pulseSPI.start = function(server, freq) {
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push:  y" );
                                 console.log("RRIデータ数: " + data.length);
+                                console.log(sheet.worksheets[2].title);
                               }else{
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
@@ -122,6 +123,7 @@ pulseSPI.start = function(server, freq) {
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push: second lasty");
                                 console.log("RRIデータ数: " + data.length);
+                                console.log(sheet.worksheets[2].title);
                               }
                               x += 1000;
                             }
