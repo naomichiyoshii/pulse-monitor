@@ -116,7 +116,7 @@ pulseSPI.start = function(server, freq) {
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push:  y" );
                                 console.log("RRIデータ数: " + data.length);
-                              }else{
+                              }else if(lasty != 0){
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
                                 dataset["col1"] = nowTime;

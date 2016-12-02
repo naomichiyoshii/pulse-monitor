@@ -10,7 +10,7 @@ my_sheet.useServiceAccountAuth(credentials, function(err){
       //console.log(data);
       sheet = data; //あとから使えるように外部スコープに保存
       for(var i in sheet.worksheets) {
-          if(sheet.worksheets[i].title === 'sheet2') {
+          if(sheet.worksheets[i].title === 'sheet3') {
               // sheet.worksheets[i].getRows( function( err, rows ) {
               //     for(var i in rows) {
               //         console.log(rows[i]);
@@ -19,9 +19,8 @@ my_sheet.useServiceAccountAuth(credentials, function(err){
               var nowTime = new Date();
               dataset["col1"] = nowTime;
               dataset["col2"] = "愛生";
-              dataset["tiba"] = "千葉";
+              dataset["col3"] = "千葉";
               sheet.worksheets[i].addRow(dataset);
-              console.log(sheet.worksheets[1].title);
           }
       }
     });
