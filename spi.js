@@ -25,6 +25,11 @@ var lowpath = 0.9;
 
 var pulseSPI = {};
 
+var GoogleSpreadsheet = require('google-spreadsheet');
+var dataset = {};
+var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
+var credentials = require('./My Project-fe2e8436da48.json');
+
 pulseSPI.start = function(server, freq) {
   gpio4 = gpio.export(4, {
     direction: 'out',
@@ -45,6 +50,7 @@ pulseSPI.start = function(server, freq) {
             if (e) {
               console.error(e);
             } else {
+              //High-pass filter
               if(before_v == 0){
                  var v = ((d[0] << 8) + d[1]) & 0x03FF;
                  before_v = v;
@@ -53,6 +59,7 @@ pulseSPI.start = function(server, freq) {
                  before_v = lowpath_v;
                  var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
                   }
+              // Low-pass filter
               // if(before_v == 0){
               //    var v = ((d[0] << 8) + d[1]) & 0x03FF;
               //    before_v = v;
@@ -117,6 +124,16 @@ pulseSPI.start = function(server, freq) {
                 data.splice(0, 1);
               }
               if (data.length > 1) {
+                my_sheet.useServiceAccountAuth(credentials, function(err){
+                    my_sheet.getInfo(function(err, data){
+                      for(var i in sheet.worksheets) {
+                          if(sheet.worksheets[i].title === 'sheet3') {
+                              dataset["RRI"] = data[data.length-1];
+                              sheet.worksheets[i].addRow(dataset);
+                          }
+                      }
+                    });
+                });
                 var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
                 var phasors = fft(args);
                 var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step

@@ -1,11 +1,9 @@
 var GoogleSpreadsheet = require('google-spreadsheet');
-
 var dataset = {};
-
 var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
 var credentials = require('./My Project-fe2e8436da48.json');
-
 var sheet;
+
 setInterval(function() {
 my_sheet.useServiceAccountAuth(credentials, function(err){
     my_sheet.getInfo(function(err, data){
