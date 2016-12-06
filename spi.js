@@ -29,7 +29,7 @@ var sheetAvailable = false;
 var worksheet;
 var sheetLength;
 
-var google_module = require('../google_module');
+var google_module = require('./google_module');
 
 pulseSPI.start = function(server, freq) {
   google_module.init();
