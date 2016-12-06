@@ -32,6 +32,7 @@ pulseSPI.start(server, 512);
 // 取得する周波数を引数で指定する。省略可。デフォルトは128。
 // pulseSPI.start(server);
 
+
 /**
  * Listen on provided port, on all network interfaces.
  */
