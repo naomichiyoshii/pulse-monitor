@@ -103,8 +103,9 @@ var sheets = google.sheets('v4');
 var auth, activeSheet;
 var SPREADSHEET_ID = "1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww";
 
-function setAuth(auth) {
-  auth = auth;
+function setAuth(a) {
+  auth = a;
+  console.log(auth);
 }
 
 google_module.createSheet = function(callback) {
