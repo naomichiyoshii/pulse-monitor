@@ -180,6 +180,7 @@ function managingSheets() {
     my_sheet.getInfo(function(err, sheetsdata){
       sheetLength = sheetsdata.worksheets.length;
       worksheet = sheetsdata.worksheets[sheetsdata.worksheets.length - 1];
+      console.log(worksheet);
       sheetAvailable = true;
     });
   }
