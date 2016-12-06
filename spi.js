@@ -29,11 +29,12 @@ var GoogleSpreadsheet = require('google-spreadsheet');
 var dataset = {};
 var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
 var credentials = require('./My Project-fe2e8436da48.json');
+var sheet; // 全体で使うスプレッドシート全体の変数
 
 pulseSPI.start = function(server, freq) {
   my_sheet.useServiceAccountAuth(credentials, function(err){
       my_sheet.getInfo(function(err, sheetsdata){
-        var sheet = sheetsdata; //あとから使えるように外部スコープに保存
+        sheet = sheetsdata; //あとから使えるように外部スコープに保存
         gpio4 = gpio.export(4, {
           direction: 'out',
           ready: function() {
@@ -163,14 +164,17 @@ pulseSPI.start = function(server, freq) {
 
 function managingSheets() {
     my_sheet.addWorksheet({
-    }, function(err, sheet) {
+      title: "sheet" + sheet.worksheets.length
+    }, function(err, newSheet) {
       if(err){
         console.log(err);
         return;
       }
-      console.log(JSON.stringify(sheet));
-      sheet.setHeaderRow(['col1', 'col2']);
+      newSheet.setHeaderRow(['col1', 'col2']);
     });
+    my_sheet.getInfo(function(err, sheetsdata){
+      sheet = sheetsdata; //あとから使えるように外部スコープに保存
+    }
   }
 
 
