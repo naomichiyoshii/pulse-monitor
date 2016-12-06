@@ -118,6 +118,7 @@ google_module.createSheet = function(callback) {
       return;
     }
     activeSheet = response.sheets[0].properties.title;
+    console.log("Sheet '" + activeSheet + "' was created!");
     callback();
   });
 };
@@ -136,6 +137,7 @@ google_module.appendData = function(data) {
       console.log('The API returned an error: ' + err);
       return;
     }
+    console.log("Appennded");
   });
 };
 
