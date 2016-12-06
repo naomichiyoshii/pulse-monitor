@@ -168,7 +168,7 @@ pulseSPI.start = function(server, freq) {
 
 function managingSheets() {
     my_sheet.addWorksheet({
-      title: "sheet" + sheetLength
+      title: "sheet" + (sheetLength + 1)
     }, function(err, newSheet) {
       if(err){
         console.log(err);
