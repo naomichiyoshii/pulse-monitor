@@ -25,9 +25,6 @@ var lowpath = 0.9;
 
 var pulseSPI = {};
 
-var GoogleSpreadsheet = require('google-spreadsheet');
-var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
-var credentials = require('./My Project-fe2e8436da48.json');
 var sheetAvailable = false;
 var worksheet;
 var sheetLength;
@@ -37,7 +34,6 @@ var google_module = require('../google_module');
 pulseSPI.start = function(server, freq) {
   google_module.init();
   my_sheet.useServiceAccountAuth(credentials, function(err) {
-    initSheet();
     initSocket(server);
     gpio4 = gpio.export(4, {
       direction: 'out',
@@ -169,43 +165,6 @@ function initSocket(server) {
         sheetAvailable = true;
       });
     });
-  });
-}
-
-function initSheet() {
-  // sheetAvailable = false;
-  // my_sheet.getInfo(function(err, sheetsdata){
-  //   sheetLength = sheetsdata.worksheets.length;
-  //   worksheet = sheetsdata.worksheets[sheetsdata.worksheets.length - 1];
-  //   sheetAvailable = true;
-  // });
-
-  var sheets = google.sheets('v4');
-  sheets.spreadsheets.get({
-    auth: API_KEY,
-    spreadsheetId: '1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww',
-    range: 'sheet1!A1:C',
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    var rows = response.values;
-    sheetLength = response.
-  });
-
-}
-
-function managingSheets() {
-  my_sheet.addWorksheet({
-    title: "sheet" + (sheetLength + 1)
-  }, function(err, newSheet) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    newSheet.setHeaderRow(['col1', 'col2']);
-    initSheet();
   });
 }
 
