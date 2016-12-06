@@ -29,12 +29,16 @@ var GoogleSpreadsheet = require('google-spreadsheet');
 var dataset = {};
 var my_sheet = new GoogleSpreadsheet("1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww");
 var credentials = require('./My Project-fe2e8436da48.json');
-var sheet; // 全体で使うスプレッドシート全体の変数
+var sheetAvailable = false;
+var worksheet;
+var sheetLength;
 
 pulseSPI.start = function(server, freq) {
   my_sheet.useServiceAccountAuth(credentials, function(err){
       my_sheet.getInfo(function(err, sheetsdata){
-        sheet = sheetsdata; //あとから使えるように外部スコープに保存
+        sheetLength = sheetsdata.worksheets.length;
+        worksheet = sheetsdata.worksheets[sheetsdata.worksheets.length - 1];
+        sheetAvailable = true;
         gpio4 = gpio.export(4, {
           direction: 'out',
           ready: function() {
@@ -94,7 +98,7 @@ pulseSPI.start = function(server, freq) {
                               data.push(lasty);
                               dataset["col1"] = (nowTime - masterTime);
                               dataset["col2"] = Math.floor(lasty);
-                              sheet.worksheets[2].addRow(dataset);
+                              if(sheetAvailable)worksheet.addRow(dataset);
                               console.log("push: lasty");
                               console.log("RRIデータ数: " + data.length);
                               skiptimes += 1;
@@ -118,7 +122,7 @@ pulseSPI.start = function(server, freq) {
                                 data.push(y);
                                 dataset["col1"] = (nowTime - masterTime);
                                 dataset["col2"] = Math.floor(y);
-                                sheet.worksheets[2].addRow(dataset);
+                                if(sheetAvailable)worksheet.addRow(dataset);
                                 console.log("push:  y" );
                                 console.log("RRIデータ数: " + data.length);
                               }else if(lasty != 0){
@@ -127,7 +131,7 @@ pulseSPI.start = function(server, freq) {
                                 dataset["col1"] = (nowTime - masterTime)
                                 ;
                                 dataset["col2"] = Math.floor(lasty);
-                                sheet.worksheets[2].addRow(dataset);
+                                if(sheetAvailable)worksheet.addRow(dataset);
                                 console.log("push: second lasty");
                                 console.log("RRIデータ数: " + data.length);
                               }
@@ -164,7 +168,7 @@ pulseSPI.start = function(server, freq) {
 
 function managingSheets() {
     my_sheet.addWorksheet({
-      title: "sheet" + sheet.worksheets.length
+      title: "sheet" + sheetLength
     }, function(err, newSheet) {
       if(err){
         console.log(err);
@@ -172,8 +176,11 @@ function managingSheets() {
       }
       newSheet.setHeaderRow(['col1', 'col2']);
     });
+    sheetAvailable = false;
     my_sheet.getInfo(function(err, sheetsdata){
-      sheet = sheetsdata; //あとから使えるように外部スコープに保存
+      sheetLength = sheetsdata.worksheets.length;
+      worksheet = sheetsdata.worksheets[sheetsdata.worksheets.length - 1];
+      sheetAvailable = true;
     });
   }
 
