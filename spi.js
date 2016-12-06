@@ -45,6 +45,10 @@ pulseSPI.start = function(server, freq) {
                   console.log('user disconnected');
                 });
               });
+              io.on('startUpload', function(socket) {
+                console.log('Start Upload');
+                managingSheets();
+              });
               if (!freq) {
                 var freq = 128;
               }
