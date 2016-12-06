@@ -165,15 +165,7 @@ function managingSheets() {
     my_sheet.addWorksheet({
       title: 'my new sheet'
     }, function(err, sheet) {
-
-      // change a sheet's title
-      sheet.setTitle('sheet' + sheet.worksheets.length); //async
-
-      //resize a sheet
-      sheet.resize({rowCount: 50, colCount: 20}); //async
-
-      sheet.setHeaderRow(['col1', 'col2']); //async
-
+      sheet.setHeaderRow(['col1', 'col2']);
     });
   }
 
