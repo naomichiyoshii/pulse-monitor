@@ -71,7 +71,7 @@ function dataCalc() {
       //   lowpath_v =　(1 - lowpath) * before_v + lowpath * v;
       //   before_v = lowpath_v;
       // }
-      console.log(v);
+      // console.log(v);
       data2.push(v);
       if (data2.length > 256) {
         data2.splice(0, 1);
