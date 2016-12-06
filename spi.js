@@ -33,19 +33,17 @@ var google_module = require('./google_module');
 
 pulseSPI.start = function(server, freq) {
   google_module.init();
-  my_sheet.useServiceAccountAuth(credentials, function(err) {
-    initSocket(server);
-    gpio4 = gpio.export(4, {
-      direction: 'out',
-      ready: function() {
-        gpio4.set(function() {
-          if (!freq) {
-            var freq = 128;
-          }
-          setInterval(dataCalc, 50);
-        });
-      }
-    });
+  initSocket(server);
+  gpio4 = gpio.export(4, {
+    direction: 'out',
+    ready: function() {
+      gpio4.set(function() {
+        if (!freq) {
+          var freq = 128;
+        }
+        setInterval(dataCalc, 50);
+      });
+    }
   });
 };
 
@@ -161,7 +159,7 @@ function initSocket(server) {
     });
     socket.on('startUpload', function(socket) {
       console.log('Start Upload');
-      google_module.createSheet(function(){
+      google_module.createSheet(function() {
         sheetAvailable = true;
       });
     });
