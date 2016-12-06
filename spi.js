@@ -174,7 +174,7 @@ function managingSheets() {
     });
     my_sheet.getInfo(function(err, sheetsdata){
       sheet = sheetsdata; //あとから使えるように外部スコープに保存
-    }
+    });
   }
 
 
