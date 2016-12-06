@@ -87,7 +87,7 @@ pulseSPI.start = function(server, freq) {
                             if(lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350  || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                               console.log("線形補間: " + lasty);
                               data.push(lasty);
-                              dataset["col1"] = nowTime;
+                              dataset["col1"] = (nowTime - masterTime);
                               dataset["col2"] = Math.floor(lasty);
                               sheet.worksheets[2].addRow(dataset);
                               console.log("push: lasty");
@@ -102,7 +102,7 @@ pulseSPI.start = function(server, freq) {
                             if(nowTime - masterTime > x + 1000){
                                x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
                             }
-                            if(nowTime - masterTime > x){
+                            if(nowTime - masterTime > x && lastRRI != 0){
                               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
                               if(lasty == 0 && (y > 350  && y < 1000)){
                                 lasty = y;
@@ -111,7 +111,7 @@ pulseSPI.start = function(server, freq) {
                                 lasty = y;
                                 console.log("線形補間: " + y);
                                 data.push(y);
-                                dataset["col1"] = nowTime;
+                                dataset["col1"] = (nowTime - masterTime);
                                 dataset["col2"] = Math.floor(y);
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push:  y" );
@@ -119,7 +119,8 @@ pulseSPI.start = function(server, freq) {
                               }else if(lasty != 0){
                                 console.log("線形補間: " + lasty);
                                 data.push(lasty);
-                                dataset["col1"] = nowTime;
+                                dataset["col1"] = (nowTime - masterTime)
+                                ;
                                 dataset["col2"] = Math.floor(lasty);
                                 sheet.worksheets[2].addRow(dataset);
                                 console.log("push: second lasty");
@@ -155,6 +156,22 @@ pulseSPI.start = function(server, freq) {
     });
   });
 };
+
+function managingSheets() {
+    my_sheet.addWorksheet({
+      title: 'my new sheet'
+    }, function(err, sheet) {
+
+      // change a sheet's title
+      sheet.setTitle('sheet' + sheet.worksheets.length); //async
+
+      //resize a sheet
+      sheet.resize({rowCount: 50, colCount: 20}); //async
+
+      sheet.setHeaderRow(['col1', 'col2']); //async
+
+    });
+  }
 
 
 process.on('SIGINT', function() {
