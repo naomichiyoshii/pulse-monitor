@@ -168,7 +168,7 @@ function managingSheets() {
         console.log(err);
         return;
       }
-      sheet.setTitle("sheet"+sheet.worksheets.length);
+      console.log(JSON.stringify(sheet));
       sheet.setHeaderRow(['col1', 'col2']);
     });
   }
