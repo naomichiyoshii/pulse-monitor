@@ -165,6 +165,10 @@ function managingSheets() {
     my_sheet.addWorksheet({
       title: 'my new sheet'
     }, function(err, sheet) {
+      if(err){
+        console.log(err);
+        return;
+      }
       sheet.setHeaderRow(['col1', 'col2']);
     });
   }
