@@ -102,6 +102,7 @@ function storeToken(token) {
 
 var sheets = google.sheets('v4');
 var auth, activeSheet, sheettitle;
+var requests = [];
 var SPREADSHEET_ID = "1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww";
 
 function setAuth(a) {
@@ -110,7 +111,6 @@ function setAuth(a) {
 }
 
 google_module.createSheet = function(callback) {
-  var requests = [];
   sheets.spreadsheets.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
@@ -120,7 +120,7 @@ google_module.createSheet = function(callback) {
       return;
     }
     sheettitle = "sheet" + response.sheets.length;
-    console.log("Sheettitle is " + sheettitle);
+    console.log("Sheettitle is " + sheettitle+1);
     requests.push({
       addSheet : {
         properties: {title: sheettitle}
