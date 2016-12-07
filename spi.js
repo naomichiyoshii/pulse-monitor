@@ -78,67 +78,69 @@ function dataCalc() {
       // console.log(v);
       rawData.push(v);
       pushRawData.push(v);
-      if (sheetAvailable) google_module.appendData(pushRawData);
+      //if (sheetAvailable) google_module.appendData(pushRawData);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
       }
-      if (v > BL && !boo) {
-        if (v < lastv) {
-          var nowTime = new Date();
-          if (lastTime == 0) {
-            lastTime = nowTime;
-            masterTime = nowTime;
-            boo = true;
-          } else {
-            if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
-              console.log("線形補間: " + lasty);
-              data.push(lasty);
-              dataset.push(nowTime);
-              dataset.push(Math.floor(lasty));
-              if (sheetAvailable) google_module.appendData(dataset);
-              console.log("push: lasty");
-              console.log("RRIデータ数: " + data.length);
-              skiptimes += 1;
-              return false;
-            }
-            skiptimes = 0;
-            lastRRI = RRI;
-            RRI = nowTime - lastTime;
-            boo = true;
-            if (nowTime - masterTime > x + 1000) {
-              x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
-            }
-            if (nowTime - masterTime > x && lastRRI != 0) {
-              y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-              if (lasty == 0 && (y > 350 && y < 1000)) {
-                lasty = y;
-              }
-              if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty / 2) && y < (lasty * 1.5))) {
-                lasty = y;
-                console.log("線形補間: " + y);
-                data.push(y);
-                dataset.push(nowTime);
-                dataset.push(Math.floor(y));
-                if (sheetAvailable) google_module.appendData(dataset);
-                console.log("push:  y");
-                console.log("RRIデータ数: " + data.length);
-              } else if (lasty != 0) {
+      if (sheetAvailable) {
+        if (v > BL && !boo) {
+          if (v < lastv) {
+            var nowTime = new Date();
+            if (lastTime == 0) {
+              lastTime = nowTime;
+              masterTime = nowTime;
+              boo = true;
+            } else {
+              if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
                 dataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
                 if (sheetAvailable) google_module.appendData(dataset);
-                console.log("push: second lasty");
+                console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
+                skiptimes += 1;
+                return false;
               }
-              x += 1000;
+              skiptimes = 0;
+              lastRRI = RRI;
+              RRI = nowTime - lastTime;
+              boo = true;
+              if (nowTime - masterTime > x + 1000) {
+                x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
+              }
+              if (nowTime - masterTime > x && lastRRI != 0) {
+                y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+                if (lasty == 0 && (y > 350 && y < 1000)) {
+                  lasty = y;
+                }
+                if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty / 2) && y < (lasty * 1.5))) {
+                  lasty = y;
+                  console.log("線形補間: " + y);
+                  data.push(y);
+                  dataset.push(nowTime);
+                  dataset.push(Math.floor(y));
+                  if (sheetAvailable) google_module.appendData(dataset);
+                  console.log("push:  y");
+                  console.log("RRIデータ数: " + data.length);
+                } else if (lasty != 0) {
+                  console.log("線形補間: " + lasty);
+                  data.push(lasty);
+                  dataset.push(nowTime);
+                  dataset.push(Math.floor(lasty));
+                  if (sheetAvailable) google_module.appendData(dataset);
+                  console.log("push: second lasty");
+                  console.log("RRIデータ数: " + data.length);
+                }
+                x += 1000;
+              }
+              lastTime = nowTime;
             }
-            lastTime = nowTime;
           }
+          lastv = v;
+        } else if (v < BL && boo) {
+          boo = false;
         }
-        lastv = v;
-      } else if (v < BL && boo) {
-        boo = false;
       }
       if (data.length > 512) {
         data.splice(0, 1);
@@ -148,7 +150,7 @@ function dataCalc() {
         var phasors = fft(args);
         var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
         var magnitudes = fftUtil.fftMag(phasors);
-        io.emit("data", args);
+        if (sheetAvailable) io.emit("data", args);
         //io.emit("fft", frequencies, magnitudes);
         io.emit("rawData", rawData);
       }
