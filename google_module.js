@@ -109,7 +109,7 @@ function setAuth(a) {
 }
 
 google_module.createSheet = function(callback) {
-  sheets.spreadsheets.get({
+  sheets.spreadsheets.batchUpdate({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID
   }, function(err, response) {
