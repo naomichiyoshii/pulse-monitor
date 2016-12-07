@@ -153,6 +153,8 @@ function dataCalc() {
         if (sheetAvailable) io.emit("data", args);
         //io.emit("fft", frequencies, magnitudes);
         io.emit("rawData", rawData);
+      }else{
+        io.emit("rawData", rawData);
       }
     }
   });
