@@ -111,13 +111,16 @@ function setAuth(a) {
 google_module.createSheet = function(callback) {
   sheets.spreadsheets.batchUpdate({
     auth: auth,
-    spreadsheetId: SPREADSHEET_ID
+    spreadsheetId: SPREADSHEET_ID,
+    addSheet: {
+      sheetType: "GRID",
+    },
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    activeSheet = response.sheets[0].properties.title;
+    activeSheet = response.sheets[response.sheets.properties.length].properties.title;
     console.log("Sheet '" + activeSheet + "' was created!");
     callback();
   });
