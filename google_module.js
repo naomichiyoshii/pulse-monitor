@@ -109,17 +109,17 @@ function setAuth(a) {
 }
 
 google_module.createSheet = function(callback) {
+  var requests = [];
+  requests.push({
+    addSheet : {
+      properties: {title: 'New Sheet Name'}
+    }
+  });
+  var batchUpdateRequest = {requests: requests}
   sheets.spreadsheets.batchUpdate({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    {
-    requests: [{
-      addSheet: {
-        properties: {
-        },
-      },
-    }],
-  }
+    resource : batchUpdateRequest,
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
