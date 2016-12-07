@@ -29,6 +29,8 @@ var sheetAvailable = false;
 var worksheet;
 var sheetLength;
 
+var io;
+
 var google_module = require('./google_module');
 
 pulseSPI.start = function(server, freq) {
@@ -151,7 +153,7 @@ function dataCalc() {
 }
 
 function initSocket(server) {
-  var io = require('socket.io')(server);
+  io = require('socket.io')(server);
   io.on('connection', function(socket) {
     console.log('a user connected');
     socket.on('disconnect', function() {
