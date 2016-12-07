@@ -5,7 +5,6 @@ var googleAuth = require('google-auth-library');
 
 var google_module = {};
 
-var sheettitle = "";
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/sheets.googleapis.com-nodejs-quickstart.json
@@ -102,7 +101,7 @@ function storeToken(token) {
 }
 
 var sheets = google.sheets('v4');
-var auth, activeSheet;
+var auth, activeSheet, sheettitle;
 var SPREADSHEET_ID = "1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww";
 
 function setAuth(a) {
@@ -122,11 +121,11 @@ google_module.createSheet = function(callback) {
     }
     sheettitle = "sheet" + response.sheets.length;
     console.log("Sheettitle is " + sheettitle);
-  });
-  requests.push({
-    addSheet : {
-      properties: {title: sheettitle}
-    }
+    requests.push({
+      addSheet : {
+        properties: {title: sheettitle}
+      }
+    });
   });
   var batchUpdateRequest = {requests: requests}
   sheets.spreadsheets.batchUpdate({
