@@ -112,8 +112,8 @@ google_module.createSheet = function(callback) {
   sheets.spreadsheets.batchUpdate({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    requests: [{
-      addSheet: {
+    "requests": [{
+      "addSheet": {
         "properties": {
         },
       },
