@@ -121,29 +121,29 @@ google_module.createSheet = function(callback) {
     }
     sheettitle = "sheet" + (response.sheets.length + 1);
     console.log("Sheettitle is " + sheettitle);
-  });
-  requests.push({
-    addSheet: {
-      properties: {
-        title: sheettitle
+    requests.push({
+      addSheet: {
+        properties: {
+          title: sheettitle
+        }
       }
+    });
+    var batchUpdateRequest = {
+      requests: requests
     }
-  });
-  var batchUpdateRequest = {
-    requests: requests
-  }
-  sheets.spreadsheets.batchUpdate({
-    auth: auth,
-    spreadsheetId: SPREADSHEET_ID,
-    resource: batchUpdateRequest,
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    activeSheet = sheettitle;
-    console.log("Sheet '" + activeSheet + "' was created!");
-    callback();
+    sheets.spreadsheets.batchUpdate({
+      auth: auth,
+      spreadsheetId: SPREADSHEET_ID,
+      resource: batchUpdateRequest,
+    }, function(err, response) {
+      if (err) {
+        console.log('The API returned an error: ' + err);
+        return;
+      }
+      activeSheet = sheettitle;
+      console.log("Sheet '" + activeSheet + "' was created!");
+      callback();
+    });
   });
 };
 
