@@ -112,9 +112,12 @@ google_module.createSheet = function(callback) {
   sheets.spreadsheets.batchUpdate({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    addSheet: {
-      sheetType: "GRID",
-    },
+    requests: [{
+      addSheet: {
+        "properties": {
+        },
+      },
+    }],
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
