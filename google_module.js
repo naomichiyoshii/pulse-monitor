@@ -119,13 +119,13 @@ google_module.createSheet = function(callback) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    sheettitle = "sheet" + response.sheets.length;
-    console.log("Sheettitle is " + sheettitle+1);
-    requests.push({
-      addSheet : {
-        properties: {title: sheettitle}
-      }
-    });
+    sheettitle = "sheet" + (response.sheets.length+1);
+    console.log("Sheettitle is " + sheettitle);
+  });
+  requests.push({
+    addSheet : {
+      properties: {title: sheettitle}
+    }
   });
   var batchUpdateRequest = {requests: requests}
   sheets.spreadsheets.batchUpdate({
