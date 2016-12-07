@@ -5,6 +5,8 @@ var googleAuth = require('google-auth-library');
 
 var google_module = {};
 
+var sheettitle = "";
+
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/sheets.googleapis.com-nodejs-quickstart.json
 var SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
@@ -118,7 +120,7 @@ google_module.createSheet = function(callback) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    var sheettitle = "sheet" + response.sheets.length;
+    sheettitle = "sheet" + response.sheets.length;
     console.log("Sheettitle is " + sheettitle);
   });
   requests.push({
