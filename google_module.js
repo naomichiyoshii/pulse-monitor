@@ -165,4 +165,22 @@ google_module.appendData = function(data) {
   });
 };
 
+google_module.appendRawdata = function(data) {
+  sheets.spreadsheets.values.append({
+    auth: auth,
+    spreadsheetId: SPREADSHEET_ID,
+    valueInputOption: "USER_ENTERED",
+    range: activeSheet + "!D1",
+    resource: {
+      values: [data]
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    console.log("Appennded");
+  });
+};
+
 module.exports = google_module;

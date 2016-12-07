@@ -148,7 +148,7 @@ var fft_chart = Highcharts.chart('fft', {
     data: []
   }]
 });
-socket.on('data2', function(raw_data) {
+socket.on('rawData', function(raw_data) {
   vchart.series[0].setData(raw_data);
 });
 socket.on('data', function(raw_data) {

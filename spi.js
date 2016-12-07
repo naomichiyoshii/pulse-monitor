@@ -4,7 +4,7 @@ var MCP3002 = Buffer([0x68, 0]);
 var fft = require('fft-js').fft;
 var fftUtil = require('fft-js').util;
 var data = [];
-var data2 = [];
+var rawData = [];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
@@ -52,6 +52,7 @@ pulseSPI.start = function(server, freq) {
 function dataCalc() {
   spi.transfer(MCP3002, MCP3002.length, function(e, d) {
     var dataset = [];
+    var pushRawData = [];
     if (e) {
       console.error(e);
     } else {
@@ -64,6 +65,7 @@ function dataCalc() {
         before_v = lowpath_v;
         var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
       }
+
       // Low-pass filter
       // if(before_v == 0){
       //    var v = ((d[0] << 8) + d[1]) & 0x03FF;
@@ -74,9 +76,11 @@ function dataCalc() {
       //   before_v = lowpath_v;
       // }
       // console.log(v);
-      data2.push(v);
-      if (data2.length > 256) {
-        data2.splice(0, 1);
+      rawData.push(v);
+      pushRawData.push(v);
+      if (sheetAvailable) google_module.appendData(pushRawData);
+      if (rawData.length > 256) {
+        rawData.splice(0, 1);
       }
       if (v > BL && !boo) {
         if (v < lastv) {
@@ -89,7 +93,7 @@ function dataCalc() {
             if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
               console.log("線形補間: " + lasty);
               data.push(lasty);
-              dataset.push(nowTime - masterTime);
+              dataset.push(nowTime);
               dataset.push(Math.floor(lasty));
               if (sheetAvailable) google_module.appendData(dataset);
               console.log("push: lasty");
@@ -113,7 +117,7 @@ function dataCalc() {
                 lasty = y;
                 console.log("線形補間: " + y);
                 data.push(y);
-                dataset.push(nowTime - masterTime);
+                dataset.push(nowTime);
                 dataset.push(Math.floor(y));
                 if (sheetAvailable) google_module.appendData(dataset);
                 console.log("push:  y");
@@ -121,7 +125,7 @@ function dataCalc() {
               } else if (lasty != 0) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
-                dataset.push(nowTime - masterTime);
+                dataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
                 if (sheetAvailable) google_module.appendData(dataset);
                 console.log("push: second lasty");
@@ -146,7 +150,7 @@ function dataCalc() {
         var magnitudes = fftUtil.fftMag(phasors);
         io.emit("data", args);
         //io.emit("fft", frequencies, magnitudes);
-        io.emit("data2", data2);
+        io.emit("rawData", rawData);
       }
     }
   });
