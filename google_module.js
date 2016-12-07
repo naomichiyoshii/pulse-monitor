@@ -102,7 +102,6 @@ function storeToken(token) {
 
 var sheets = google.sheets('v4');
 var auth, activeSheet, sheettitle;
-var requests = [];
 var SPREADSHEET_ID = "1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww";
 
 function setAuth(a) {
@@ -111,6 +110,7 @@ function setAuth(a) {
 }
 
 google_module.createSheet = function(callback) {
+  var requests = [];
   sheets.spreadsheets.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
@@ -119,19 +119,23 @@ google_module.createSheet = function(callback) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    sheettitle = "sheet" + (response.sheets.length+1);
+    sheettitle = "sheet" + (response.sheets.length + 1);
     console.log("Sheettitle is " + sheettitle);
   });
   requests.push({
-    addSheet : {
-      properties: {title: sheettitle}
+    addSheet: {
+      properties: {
+        title: sheettitle
+      }
     }
   });
-  var batchUpdateRequest = {requests: requests}
+  var batchUpdateRequest = {
+    requests: requests
+  }
   sheets.spreadsheets.batchUpdate({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    resource : batchUpdateRequest,
+    resource: batchUpdateRequest,
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
