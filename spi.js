@@ -118,13 +118,13 @@ function dataCalc() {
             }
             if (nowTime - masterTime > x && lastRRI != 0) {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-              if (lasty == 0 && (y > 350 && y < 1100)) {
+              if (lasty == 0 && (y > 350 && y < 1200)) {
                 lasty = y;
-              }else if(skiptimes > 0 && (y > 350 && y < 1100 )&& (y > (lasty * 0.5))){
+              }else if(skiptimes > 0 && (y > 350 && y < 1200 )&& (y > (lasty * 0.5))){
                 lasty = y;
                 skiptimes = 0;
               }
-              if (lasty != 0 && (y > 350 && y < 1100) && (y > (lasty * 0.8) && y < (lasty * 1.2))) {
+              if (lasty != 0 && (y > 350 && y < 1200) && (y > (lasty * 0.7) && y < (lasty * 1.3))) {
                 lasty = y;
                 console.log("線形補間: " + y);
                 data.push(y);
