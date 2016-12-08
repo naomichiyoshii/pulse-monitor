@@ -17,7 +17,7 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 280;
+var BL = 250;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -118,13 +118,13 @@ function dataCalc() {
             }
             if (nowTime - masterTime > x && lastRRI != 0) {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-              if (lasty == 0 && (y > 350 && y < 1000)) {
+              if (lasty == 0 && (y > 350 && y < 1100)) {
                 lasty = y;
-              }else if(skiptimes > 0 && (y > 350 && y < 1000 )&& (y > (lasty * 0.6) && y < (lasty * 1.4))){
+              }else if(skiptimes > 0 && (y > 350 && y < 1100 )&& (y > (lasty * 0.5))){
                 lasty = y;
                 skiptimes = 0;
               }
-              if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty * 0.8) && y < (lasty * 1.2))) {
+              if (lasty != 0 && (y > 350 && y < 1100) && (y > (lasty * 0.8) && y < (lasty * 1.2))) {
                 lasty = y;
                 console.log("線形補間: " + y);
                 data.push(y);
