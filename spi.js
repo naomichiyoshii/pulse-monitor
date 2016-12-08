@@ -120,7 +120,7 @@ function dataCalc() {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
               if (lasty == 0 && (y > 350 && y < 1000)) {
                 lasty = y;
-              }else if(skiptimes > 1 && (y > 350 && y < 1000 )&& (y > (lasty * 0.6) && y < (lasty * 1.4))){
+              }else if(skiptimes > 0 && (y > 350 && y < 1000 )&& (y > (lasty * 0.6) && y < (lasty * 1.4))){
                 lasty = y;
                 skiptimes = 0;
               }
@@ -131,7 +131,7 @@ function dataCalc() {
                 dataset.push([nowTime, Math.floor(lasty)]);
                 console.log("push:  y");
                 console.log("RRIデータ数: " + data.length);
-              } else if (lasty != 0) {
+              } else if (lasty != 0 && skiptimes == 0) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
                 dataset.push([nowTime, Math.floor(lasty)]);
