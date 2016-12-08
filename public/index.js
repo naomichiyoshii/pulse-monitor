@@ -1,7 +1,14 @@
 var socket = io();
 
+function createSheet(){
+  var ret = confirm("ワークシートを新たに生成します。よろしいですか？");
+  if(ret == true){
+    socket.emit("startCreate");
+  }
+}
+
 function startRRI(){
-  var ret = confirm("RRIの計測を開始します。よろしいですか？");
+  var ret = confirm("RRIの測定を開始します。よろしいですか？");
   if(ret == true){
     socket.emit("startUpload");
   }

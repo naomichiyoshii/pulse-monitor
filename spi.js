@@ -6,6 +6,8 @@ var fftUtil = require('fft-js').util;
 var data = [];
 var rawData = [];
 var pushRawData = [];
+var dataset = [];
+var timedataset = [];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
@@ -52,7 +54,6 @@ pulseSPI.start = function(server, freq) {
 
 function dataCalc() {
   spi.transfer(MCP3002, MCP3002.length, function(e, d) {
-    var dataset = [];
     if (e) {
       console.error(e);
     } else {
@@ -93,11 +94,16 @@ function dataCalc() {
               if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
-                dataset.push(nowTime);
+                timedataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
-                if (sheetAvailable) google_module.appendData(dataset);
-                if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                pushRawData = [];
+                if (dataset.length = 5) {
+                  if (sheetAvailable) google_module.appendData(timedataset);
+                  if (sheetAvailable) google_module.appendData(dataset);
+                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
+                  pushRawData = [];
+                  timedataset = [];
+                  dataset = [];
+                }
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
                 skiptimes += 1;
@@ -119,21 +125,31 @@ function dataCalc() {
                   lasty = y;
                   console.log("線形補間: " + y);
                   data.push(y);
-                  dataset.push(nowTime);
+                  timedataset.push(nowTime);
                   dataset.push(Math.floor(y));
-                  if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                  pushRawData = [];
+                  if (dataset.length = 5) {
+                    if (sheetAvailable) google_module.appendData(timedataset);
+                    if (sheetAvailable) google_module.appendData(dataset);
+                    if (sheetAvailable) google_module.appendRawdata(pushRawData);
+                    pushRawData = [];
+                    timedataset = [];
+                    dataset = [];
+                  }
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
                 } else if (lasty != 0) {
                   console.log("線形補間: " + lasty);
                   data.push(lasty);
-                  dataset.push(nowTime);
+                  timedataset.push(nowTime);
                   dataset.push(Math.floor(lasty));
-                  if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                  pushRawData = [];
+                  if (dataset.length = 5) {
+                    if (sheetAvailable) google_module.appendData(timedataset);
+                    if (sheetAvailable) google_module.appendData(dataset);
+                    if (sheetAvailable) google_module.appendRawdata(pushRawData);
+                    pushRawData = [];
+                    timedataset = [];
+                    dataset = [];
+                  }
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
                 }
@@ -158,7 +174,7 @@ function dataCalc() {
         io.emit("data", args);
         //io.emit("fft", frequencies, magnitudes);
         io.emit("rawData", rawData);
-      }else {
+      } else {
         io.emit("rawData", rawData);
       }
     }
@@ -172,11 +188,15 @@ function initSocket(server) {
     socket.on('disconnect', function() {
       console.log('user disconnected');
     });
+    socket.on('startCreate', function(socket) {
+      console.log('Start Create Sheet');
+      google_module.createSheet(function() {
+        sheetAvailable = false;
+      });
+    });
     socket.on('startUpload', function(socket) {
       console.log('Start Upload');
-      google_module.createSheet(function() {
         sheetAvailable = true;
-      });
     });
   });
 }
