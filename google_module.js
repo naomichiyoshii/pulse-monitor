@@ -126,6 +126,7 @@ google_module.createSheet = function(callback) {
     requests.push({
       addSheet: {
         properties: {
+          index: response.sheets.length,
           title: sheettitle
         }
       }
@@ -133,6 +134,7 @@ google_module.createSheet = function(callback) {
     requests.push({
       addSheet: {
         properties: {
+          index: response.sheets.length + 1,
           title: rawsheettitle
         }
       }
