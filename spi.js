@@ -5,6 +5,7 @@ var fft = require('fft-js').fft;
 var fftUtil = require('fft-js').util;
 var data = [];
 var rawData = [];
+var pushRawData = [];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
@@ -52,7 +53,6 @@ pulseSPI.start = function(server, freq) {
 function dataCalc() {
   spi.transfer(MCP3002, MCP3002.length, function(e, d) {
     var dataset = [];
-    var pushRawData = [];
     if (e) {
       console.error(e);
     } else {
@@ -96,6 +96,8 @@ function dataCalc() {
                 data.push(lasty);
                 dataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
+                dataset.push(pushRawData);
+                pushRawData = [];
                 if (sheetAvailable) google_module.appendData(dataset);
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
@@ -120,6 +122,8 @@ function dataCalc() {
                   data.push(y);
                   dataset.push(nowTime);
                   dataset.push(Math.floor(y));
+                  dataset.push(pushRawData);
+                  pushRawData = [];
                   if (sheetAvailable) google_module.appendData(dataset);
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
@@ -128,6 +132,8 @@ function dataCalc() {
                   data.push(lasty);
                   dataset.push(nowTime);
                   dataset.push(Math.floor(lasty));
+                  dataset.push(pushRawData);
+                  pushRawData = [];
                   if (sheetAvailable) google_module.appendData(dataset);
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
