@@ -120,7 +120,7 @@ function dataCalc() {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
               if (lasty == 0 && (y > 350 && y < 1000)) {
                 lasty = y;
-              }else if(skiptimes > 1 && (y > 350 && y < 1000)){
+              }else if(skiptimes > 1 && (y > 350 && y < 1000 && (y > (lasty * 0.6) && y < (lasty * 1.4)))){
                 lasty = y;
                 skiptimes = 0;
               }
