@@ -97,6 +97,7 @@ function dataCalc() {
                 dataset.push(Math.floor(lasty));
                 if (sheetAvailable) google_module.appendData(dataset);
                 if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                pushRawData = [];
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
                 skiptimes += 1;
@@ -122,6 +123,7 @@ function dataCalc() {
                   dataset.push(Math.floor(y));
                   if (sheetAvailable) google_module.appendData(dataset);
                   if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  pushRawData = [];
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
                 } else if (lasty != 0) {
@@ -131,6 +133,7 @@ function dataCalc() {
                   dataset.push(Math.floor(lasty));
                   if (sheetAvailable) google_module.appendData(dataset);
                   if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  pushRawData = [];
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
                 }

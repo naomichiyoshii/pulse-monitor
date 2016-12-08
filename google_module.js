@@ -166,11 +166,11 @@ google_module.appendData = function(data) {
 };
 
 google_module.updateRawdata = function(data) {
-  sheets.spreadsheets.values.update({
+  sheets.spreadsheets.values.append({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
-    range: activeSheet + "!D",
+    range: activeSheet + "!D1",
     resource: {
       values: [data]
     }
