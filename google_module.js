@@ -134,7 +134,7 @@ google_module.createSheet = function(callback) {
     requests.push({
       addSheet: {
         properties: {
-          index: 1,
+          index: 0,
           title: rawsheettitle
         }
       }
