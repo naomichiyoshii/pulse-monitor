@@ -100,7 +100,7 @@ function dataCalc() {
             BL = v*2/3;
             boo = true;
           } else {
-            if (lasty != 0 && lastRRI != 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+            if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
               console.log("線形補間: " + lasty);
               data.push(lasty);
               dataset.push([nowTime, Math.floor(lasty)]);
@@ -137,6 +137,7 @@ function dataCalc() {
                 dataset.push([nowTime, Math.floor(lasty)]);
                 console.log("push: second lasty");
                 console.log("RRIデータ数: " + data.length);
+                skiptimes += 1;
               }
               x += 1000;
             }
