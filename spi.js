@@ -17,7 +17,7 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 800;
+var BL = 280;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -65,16 +65,15 @@ function dataCalc() {
     if (e) {
       console.error(e);
     } else {
-      var v = ((d[0] << 8) + d[1]) & 0x03FF;
       //High-pass filter
-      // if (before_v == 0) {
-      //   var v = ((d[0] << 8) + d[1]) & 0x03FF;
-      //   before_v = v;
-      // } else {
-      //   lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-      //   before_v = lowpath_v;
-      //   var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
-      // }
+      if (before_v == 0) {
+        var v = ((d[0] << 8) + d[1]) & 0x03FF;
+        before_v = v;
+      } else {
+        lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+        before_v = lowpath_v;
+        var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
+      }
 
       // Low-pass filter
       // if(before_v == 0){
@@ -98,7 +97,7 @@ function dataCalc() {
           if (lastTime == 0) {
             lastTime = nowTime;
             masterTime = nowTime;
-            BL = v*2/3;
+            //BL = v*2/3;
             boo = true;
           } else {
             if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
@@ -112,7 +111,7 @@ function dataCalc() {
             }
             lastRRI = RRI;
             RRI = nowTime - lastTime;
-            BL = v*2/3;
+            //BL = v*2/3;
             boo = true;
             if (nowTime - masterTime > x + 1000) {
               x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
