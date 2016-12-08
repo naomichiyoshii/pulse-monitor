@@ -17,7 +17,6 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 280;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -92,58 +91,56 @@ function dataCalc() {
       if (rawData.length > 256) {
         rawData.splice(0, 1);
       }
-      if (v > BL && !boo) {
-        if (v < lastv) {
-          var nowTime = new Date();
-          if (lastTime == 0) {
-            lastTime = nowTime;
-            masterTime = nowTime;
-            boo = true;
-          } else {
-            if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+      if (v < lastv && !boo) {
+        var nowTime = new Date();
+        if (lastTime == 0) {
+          lastTime = nowTime;
+          masterTime = nowTime;
+          boo = true;
+        } else {
+          if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+            console.log("線形補間: " + lasty);
+            data.push(lasty);
+            dataset.push([nowTime, Math.floor(lasty)]);
+            console.log("push: lasty");
+            console.log("RRIデータ数: " + data.length);
+            skiptimes += 1;
+            return false;
+          }
+          skiptimes = 0;
+          lastRRI = RRI;
+          RRI = nowTime - lastTime;
+          boo = true;
+          if (nowTime - masterTime > x + 1000) {
+            x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
+          }
+          if (nowTime - masterTime > x && lastRRI != 0) {
+            y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
+            if (lasty == 0 && (y > 350 && y < 1000)) {
+              lasty = y;
+            }
+            if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty / 2) && y < (lasty * 1.5))) {
+              lasty = y;
+              console.log("線形補間: " + y);
+              data.push(y);
+              dataset.push([nowTime, Math.floor(lasty)]);
+              console.log("push:  y");
+              console.log("RRIデータ数: " + data.length);
+            } else if (lasty != 0) {
               console.log("線形補間: " + lasty);
               data.push(lasty);
               dataset.push([nowTime, Math.floor(lasty)]);
-              console.log("push: lasty");
+              console.log("push: second lasty");
               console.log("RRIデータ数: " + data.length);
-              skiptimes += 1;
-              return false;
             }
-            skiptimes = 0;
-            lastRRI = RRI;
-            RRI = nowTime - lastTime;
-            boo = true;
-            if (nowTime - masterTime > x + 1000) {
-              x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
-            }
-            if (nowTime - masterTime > x && lastRRI != 0) {
-              y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
-              if (lasty == 0 && (y > 350 && y < 1000)) {
-                lasty = y;
-              }
-              if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty / 2) && y < (lasty * 1.5))) {
-                lasty = y;
-                console.log("線形補間: " + y);
-                data.push(y);
-                dataset.push([nowTime, Math.floor(lasty)]);
-                console.log("push:  y");
-                console.log("RRIデータ数: " + data.length);
-              } else if (lasty != 0) {
-                console.log("線形補間: " + lasty);
-                data.push(lasty);
-                dataset.push([nowTime, Math.floor(lasty)]);
-                console.log("push: second lasty");
-                console.log("RRIデータ数: " + data.length);
-              }
-              x += 1000;
-            }
-            lastTime = nowTime;
+            x += 1000;
           }
+          lastTime = nowTime;
         }
-        lastv = v;
-      } else if (v < BL && boo) {
+      } else if (v > lastv && boo) {
         boo = false;
       }
+      lastv = v;
       if (data.length > 512) {
         data.splice(0, 1);
       }
