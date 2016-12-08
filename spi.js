@@ -125,8 +125,7 @@ function dataCalc() {
                   lasty = y;
                   console.log("線形補間: " + y);
                   data.push(y);
-                  timedataset.push(nowTime);
-                  dataset.push(Math.floor(y));
+                  dataset.push([nowTime, Math.floor(lasty)]);
                   datalength += 1;
                   if (datelength = 5) {
                     if (sheetAvailable) google_module.appendData(dataset);
@@ -140,8 +139,7 @@ function dataCalc() {
                 } else if (lasty != 0) {
                   console.log("線形補間: " + lasty);
                   data.push(lasty);
-                  timedataset.push(nowTime);
-                  dataset.push(Math.floor(lasty));
+                  dataset.push([nowTime, Math.floor(lasty)]);
                   datalength += 1;
                   if (datelength = 5) {if (sheetAvailable) google_module.appendData(dataset);
                   if (sheetAvailable) google_module.appendRawdata(pushRawData);
