@@ -96,7 +96,7 @@ function dataCalc() {
                 dataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
                 if (sheetAvailable) google_module.appendData(dataset);
-                if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                if (sheetAvailable) google_module.appendRawdata(pushRawData);
                 pushRawData = [];
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
@@ -122,7 +122,7 @@ function dataCalc() {
                   dataset.push(nowTime);
                   dataset.push(Math.floor(y));
                   if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
                   pushRawData = [];
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
@@ -132,7 +132,7 @@ function dataCalc() {
                   dataset.push(nowTime);
                   dataset.push(Math.floor(lasty));
                   if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
                   pushRawData = [];
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
