@@ -119,7 +119,7 @@ google_module.createSheet = function(callback) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    sheettitle = "sheet" + ((response.sheets.length / 2) + 1);
+    sheettitle = "sheet" + (((response.sheets.length) / 2) + 1);
     rawsheettitle = "raw_" + sheettitle;
     console.log("Sheettitle is " + sheettitle);
     console.log("raw_Sheettitle is " + rawsheettitle);
@@ -128,7 +128,9 @@ google_module.createSheet = function(callback) {
         properties: {
           title: sheettitle
         }
-      },
+      }
+    });
+    requests.push({
       addSheet: {
         properties: {
           title: rawsheettitle
