@@ -77,8 +77,7 @@ function dataCalc() {
       // }
       // console.log(v);
       rawData.push(v);
-      pushRawData.push(v);
-      //if (sheetAvailable) google_module.appendData(pushRawData);
+      if (sheetAvailable) pushRawData.push(v);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
       }
@@ -96,9 +95,9 @@ function dataCalc() {
                 data.push(lasty);
                 dataset.push(nowTime);
                 dataset.push(Math.floor(lasty));
-                dataset.push(pushRawData);
-                pushRawData = [];
                 if (sheetAvailable) google_module.appendData(dataset);
+                if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                pushRawData = [];
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
                 skiptimes += 1;
@@ -122,9 +121,9 @@ function dataCalc() {
                   data.push(y);
                   dataset.push(nowTime);
                   dataset.push(Math.floor(y));
-                  dataset.push(pushRawData);
-                  pushRawData = [];
                   if (sheetAvailable) google_module.appendData(dataset);
+                  if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  pushRawData = [];
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
                 } else if (lasty != 0) {
@@ -132,9 +131,9 @@ function dataCalc() {
                   data.push(lasty);
                   dataset.push(nowTime);
                   dataset.push(Math.floor(lasty));
-                  dataset.push(pushRawData);
-                  pushRawData = [];
                   if (sheetAvailable) google_module.appendData(dataset);
+                  if (sheetAvailable) google_module.updateRawdata(pushRawData);
+                  pushRawData = [];
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
                 }

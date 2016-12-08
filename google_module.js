@@ -165,8 +165,8 @@ google_module.appendData = function(data) {
   });
 };
 
-google_module.appendRawdata = function(data) {
-  sheets.spreadsheets.values.append({
+google_module.updateRawdata = function(data) {
+  sheets.spreadsheets.values.update({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
@@ -179,7 +179,7 @@ google_module.appendRawdata = function(data) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    console.log("Appennded");
+    console.log("Update");
   });
 };
 
