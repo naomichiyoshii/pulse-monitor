@@ -63,8 +63,6 @@ function sendData() {
   }
 }
 
-}
-
 function dataCalc() {
   spi.transfer(MCP3002, MCP3002.length, function(e, d) {
     if (e) {
