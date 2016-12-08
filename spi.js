@@ -122,7 +122,7 @@ function dataCalc() {
               if (lasty == 0 && (y > 350 && y < 1000)) {
                 lasty = y;
               }
-              if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty / 2) && y < (lasty * 1.5))) {
+              if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty * 0.8) && y < (lasty * 1.2))) {
                 lasty = y;
                 console.log("線形補間: " + y);
                 data.push(y);
