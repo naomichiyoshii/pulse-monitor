@@ -85,8 +85,9 @@ function dataCalc() {
       //   before_v = lowpath_v;
       // }
       // console.log(v);
+
+      pushRawData.push([((d[0] << 8) + d[1]) & 0x03FF]);
       rawData.push(v);
-      pushRawData.push([v]);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
       }
