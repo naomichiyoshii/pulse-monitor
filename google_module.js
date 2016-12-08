@@ -148,7 +148,7 @@ google_module.createSheet = function(callback) {
         return;
       }
       activeSheet = sheettitle;
-      raw_activeSheet = rawactiveSheet;
+      raw_activeSheet = rawsheettitle;
       console.log("Sheet '" + activeSheet + "' was created!");
       console.log("Sheet '" + raw_activeSheet + "' was created!");
       callback();
