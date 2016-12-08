@@ -167,7 +167,7 @@ google_module.appendData = function(data) {
     valueInputOption: "USER_ENTERED",
     range: activeSheet + "!A1",
     resource: {
-      values: [data]
+      values: data
     }
   }, function(err, response) {
     if (err) {
@@ -185,7 +185,7 @@ google_module.appendRawdata = function(data) {
     valueInputOption: "USER_ENTERED",
     range: raw_activeSheet + "!A1",
     resource: {
-      values: [data]
+      values: data
     }
   }, function(err, response) {
     if (err) {

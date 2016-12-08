@@ -7,7 +7,6 @@ var data = [];
 var rawData = [];
 var pushRawData = [];
 var dataset = [];
-var timedataset = [];
 var oldData = 512;
 var boo = new Boolean(false);
 var lastTime = 0;
@@ -80,7 +79,7 @@ function dataCalc() {
       // }
       // console.log(v);
       rawData.push(v);
-      if (sheetAvailable) pushRawData.push(v);
+      if (sheetAvailable) pushRawData.push([v]);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
       }
@@ -96,15 +95,12 @@ function dataCalc() {
               if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
-                timedataset.push(nowTime);
-                dataset.push(Math.floor(lasty));
+                dataset.push([nowTime, Math.floor(lasty)]);
                 datalength += 1;
                 if (datelength = 5) {
-                  if (sheetAvailable) google_module.appendData(timedataset);
                   if (sheetAvailable) google_module.appendData(dataset);
                   if (sheetAvailable) google_module.appendRawdata(pushRawData);
                   pushRawData = [];
-                  timedataset = [];
                   dataset = [];
                   datalength = 0;
                 }
@@ -133,11 +129,9 @@ function dataCalc() {
                   dataset.push(Math.floor(y));
                   datalength += 1;
                   if (datelength = 5) {
-                    if (sheetAvailable) google_module.appendData(timedataset);
                     if (sheetAvailable) google_module.appendData(dataset);
                     if (sheetAvailable) google_module.appendRawdata(pushRawData);
                     pushRawData = [];
-                    timedataset = [];
                     dataset = [];
                     datalength = 0;
                   }
@@ -149,12 +143,9 @@ function dataCalc() {
                   timedataset.push(nowTime);
                   dataset.push(Math.floor(lasty));
                   datalength += 1;
-                  if (datelength = 5) {
-                    if (sheetAvailable) google_module.appendData(timedataset);
-                    if (sheetAvailable) google_module.appendData(dataset);
-                    if (sheetAvailable) google_module.appendRawdata(pushRawData);
+                  if (datelength = 5) {if (sheetAvailable) google_module.appendData(dataset);
+                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
                     pushRawData = [];
-                    timedataset = [];
                     dataset = [];
                     datalength = 0;
                   }
