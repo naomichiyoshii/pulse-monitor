@@ -100,7 +100,7 @@ function dataCalc() {
             BL = v*2/3;
             boo = true;
           } else {
-            if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
+            if (lasty != 0 && lastRRI != 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
               console.log("線形補間: " + lasty);
               data.push(lasty);
               dataset.push([nowTime, Math.floor(lasty)]);
@@ -109,7 +109,6 @@ function dataCalc() {
               skiptimes += 1;
               return false;
             }
-            skiptimes = 0;
             lastRRI = RRI;
             RRI = nowTime - lastTime;
             BL = v*2/3;
@@ -121,6 +120,9 @@ function dataCalc() {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
               if (lasty == 0 && (y > 350 && y < 1000)) {
                 lasty = y;
+              }else if(skiptimes > 1 && (y > 350 && y < 1000)){
+                lasty = y;
+                skiptimes = 0;
               }
               if (lasty != 0 && (y > 350 && y < 1000) && (y > (lasty * 0.8) && y < (lasty * 1.2))) {
                 lasty = y;
