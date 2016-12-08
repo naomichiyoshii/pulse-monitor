@@ -65,15 +65,16 @@ function dataCalc() {
     if (e) {
       console.error(e);
     } else {
+      var v = ((d[0] << 8) + d[1]) & 0x03FF;
       //High-pass filter
-      if (before_v == 0) {
-        var v = ((d[0] << 8) + d[1]) & 0x03FF;
-        before_v = v;
-      } else {
-        lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-        before_v = lowpath_v;
-        var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
-      }
+      // if (before_v == 0) {
+      //   var v = ((d[0] << 8) + d[1]) & 0x03FF;
+      //   before_v = v;
+      // } else {
+      //   lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+      //   before_v = lowpath_v;
+      //   var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
+      // }
 
       // Low-pass filter
       // if(before_v == 0){
@@ -86,7 +87,7 @@ function dataCalc() {
       // }
       // console.log(v);
 
-      pushRawData.push([((d[0] << 8) + d[1]) & 0x03FF]);
+      pushRawData.push([new Date(), ((d[0] << 8) + d[1]) & 0x03FF]);
       rawData.push(v);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
