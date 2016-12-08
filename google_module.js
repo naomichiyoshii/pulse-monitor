@@ -170,7 +170,7 @@ google_module.updateRawdata = function(data) {
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
-    range: activeSheet + "!D1",
+    range: activeSheet + "!D",
     resource: {
       values: [data]
     }
