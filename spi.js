@@ -23,7 +23,7 @@ var lastv = 0;
 var gpio = require("gpio");
 var gpio4;
 var before_v = 0;
-var lowpath = 0.9;
+var lowpath = 0.7;
 
 var datalength = 0;
 
@@ -65,16 +65,15 @@ function dataCalc() {
     if (e) {
       console.error(e);
     } else {
-      var v = ((d[0] << 8) + d[1]) & 0x03FF;
       //High-pass filter
-      // if (before_v == 0) {
-      //   var v = ((d[0] << 8) + d[1]) & 0x03FF;
-      //   before_v = v;
-      // } else {
-      //   lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
-      //   before_v = lowpath_v;
-      //   var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
-      // }
+      if (before_v == 0) {
+        var v = ((d[0] << 8) + d[1]) & 0x03FF;
+        before_v = v;
+      } else {
+        lowpath_v = 　lowpath * before_v + (1 - lowpath) * ((d[0] << 8) + d[1]) & 0x03FF;
+        before_v = lowpath_v;
+        var v = (((d[0] << 8) + d[1]) & 0x03FF) - lowpath_v;
+      }
 
       // Low-pass filter
       // if(before_v == 0){
