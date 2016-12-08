@@ -48,10 +48,22 @@ pulseSPI.start = function(server, freq) {
           var freq = 128;
         }
         setInterval(dataCalc, 50);
+        setInterval(sendData, 5000);
       });
     }
   });
 };
+
+function sendData() {
+  if (sheetAvailable) {
+    google_module.appendData(dataset);
+    google_module.appendRawdata(pushRawData);
+    dataset = [];
+    pushRawData = [];
+  }
+}
+
+}
 
 function dataCalc() {
   spi.transfer(MCP3002, MCP3002.length, function(e, d) {
@@ -96,14 +108,6 @@ function dataCalc() {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
                 dataset.push([nowTime, Math.floor(lasty)]);
-                datalength += 1;
-                if (datelength = 5) {
-                  if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                  pushRawData = [];
-                  dataset = [];
-                  datalength = 0;
-                }
                 console.log("push: lasty");
                 console.log("RRIデータ数: " + data.length);
                 skiptimes += 1;
@@ -126,27 +130,12 @@ function dataCalc() {
                   console.log("線形補間: " + y);
                   data.push(y);
                   dataset.push([nowTime, Math.floor(lasty)]);
-                  datalength += 1;
-                  if (datelength = 5) {
-                    if (sheetAvailable) google_module.appendData(dataset);
-                    if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                    pushRawData = [];
-                    dataset = [];
-                    datalength = 0;
-                  }
                   console.log("push:  y");
                   console.log("RRIデータ数: " + data.length);
                 } else if (lasty != 0) {
                   console.log("線形補間: " + lasty);
                   data.push(lasty);
                   dataset.push([nowTime, Math.floor(lasty)]);
-                  datalength += 1;
-                  if (datelength = 5) {if (sheetAvailable) google_module.appendData(dataset);
-                  if (sheetAvailable) google_module.appendRawdata(pushRawData);
-                    pushRawData = [];
-                    dataset = [];
-                    datalength = 0;
-                  }
                   console.log("push: second lasty");
                   console.log("RRIデータ数: " + data.length);
                 }
