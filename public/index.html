@@ -27,8 +27,8 @@
     <div class="jumbotron">
       <div class="page-header">
         <h1>心拍モニタ</h1>
-        <input class="btn btn-primary" type="button" value="ワークシートの生成" onclick="createSheet()"/>
-        <input class="btn btn-primary" type="button" value="RRI計測開始" onclick="startRRI()"/>
+        <button class="btn btn-primary" onclick="startRRI()">RRI計測開始</button>
+        <button class="btn btn-danger" onclick="stopRRI()">RRI計測停止</button>
       </div>
       <div id="rawdata" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
