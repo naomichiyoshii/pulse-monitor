@@ -17,7 +17,7 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 220;
+var BL = 22;0;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -26,6 +26,8 @@ var before_v = 0;
 var lowpath = 0.9;
 
 var datalength = 0;
+
+var top = [];
 
 var pulseSPI = {};
 
@@ -97,7 +99,7 @@ function dataCalc() {
           if (lastTime == 0) {
             lastTime = nowTime;
             masterTime = nowTime;
-            //BL = v*2/3;
+            top.push(v);
             boo = true;
           } else {
             if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
@@ -111,7 +113,7 @@ function dataCalc() {
             }
             lastRRI = RRI;
             RRI = nowTime - lastTime;
-            //BL = v*2/3;
+            top.push(v);
             boo = true;
             if (nowTime - masterTime > x + 1000) {
               x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
@@ -147,6 +149,15 @@ function dataCalc() {
         lastv = v;
       } else if (v < BL && boo) {
         boo = false;
+      }
+      if(top.length > 2){
+        var total = 0;
+        for(int i=0;i<top.length;i++){
+          total += top[i];
+        }
+        var ave = total / top.length;
+        BL = ave/2;
+        top.splice(0,1);
       }
       if (data.length > 512) {
         data.splice(0, 1);
