@@ -156,7 +156,7 @@ function dataCalc() {
           total += top[i];
         }
         var ave = total / top.length;
-        BL = ave*3/4;
+        BL = ave*2/3;
         top.splice(0,1);
         console.log(BL);
       }
