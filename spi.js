@@ -158,7 +158,7 @@ function dataCalc() {
         var ave = total / top.length;
         BL = Math.floor(ave*2/3);
         top.splice(0,1);
-        console.log("BL: "BL);
+        console.log("BL: " + BL);
       }
       if (data.length > 512) {
         data.splice(0, 1);
