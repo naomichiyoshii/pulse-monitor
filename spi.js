@@ -17,7 +17,8 @@ var lastRRI = 0;
 var skiptimes = 0;
 var lasty = 0;
 var y = 0;
-var BL = 22;0;
+var BL = 22;
+0;
 var x = 1000;
 var lastv = 0;
 var gpio = require("gpio");
@@ -88,7 +89,7 @@ function dataCalc() {
       // }
       // console.log(v);
 
-      pushRawData.push([new Date().getTime(),((d[0] << 8) + d[1]) & 0x03FF]);
+      pushRawData.push([new Date().getTime(), ((d[0] << 8) + d[1]) & 0x03FF]);
       rawData.push(v);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
@@ -99,7 +100,9 @@ function dataCalc() {
           if (lastTime == 0) {
             lastTime = nowTime;
             masterTime = nowTime;
-            top.push(v);
+            if (v > (BL - 250) || v < (BL + 250)) {
+              top.push(v);
+            }
             boo = true;
           } else {
             if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
@@ -113,7 +116,9 @@ function dataCalc() {
             }
             lastRRI = RRI;
             RRI = nowTime - lastTime;
-            top.push(v);
+            if (v > (BL - 250) || v < (BL + 250)) {
+              top.push(v);
+            }
             boo = true;
             if (nowTime - masterTime > x + 1000) {
               x += (Math.floor(((nowTime - masterTime) - x) / 1000)) * 1000;
@@ -122,7 +127,7 @@ function dataCalc() {
               y = lastRRI + (x + (masterTime - lastTime)) * (RRI - lastRRI) / (nowTime - lastTime);
               if (lasty == 0 && (y > 350 && y < 1200)) {
                 lasty = y;
-              }else if(skiptimes > 0 && (y > 350 && y < 1200 )&& (y > (lasty * 0.5))){
+              } else if (skiptimes > 0 && (y > 350 && y < 1200) && (y > (lasty * 0.5))) {
                 lasty = y;
                 skiptimes = 0;
               }
@@ -150,14 +155,14 @@ function dataCalc() {
       } else if (v < BL && boo) {
         boo = false;
       }
-      if(top.length > 2){
+      if (top.length > 2) {
         var total = 0;
-        for(var i=0;i<top.length;i++){
+        for (var i = 0; i < top.length; i++) {
           total += top[i];
         }
         var ave = total / top.length;
-        BL = Math.floor(ave*2/3);
-        top.splice(0,1);
+        BL = Math.floor(ave * 2 / 3);
+        top.splice(0, 1);
         console.log("BL: " + BL);
       }
       if (data.length > 512) {
