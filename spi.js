@@ -158,6 +158,7 @@ function dataCalc() {
         var ave = total / top.length;
         BL = ave/2;
         top.splice(0,1);
+        console.log(BL);
       }
       if (data.length > 512) {
         data.splice(0, 1);
