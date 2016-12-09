@@ -88,7 +88,7 @@ function dataCalc() {
       // }
       // console.log(v);
 
-      pushRawData.push([new Date(),((d[0] << 8) + d[1]) & 0x03FF]);
+      pushRawData.push([new Date().getTime(),((d[0] << 8) + d[1]) & 0x03FF]);
       rawData.push(v);
       if (rawData.length > 256) {
         rawData.splice(0, 1);
@@ -105,7 +105,7 @@ function dataCalc() {
             if (lasty != 0 && lastRRI != 0 && skiptimes == 0 && (nowTime - lastTime < 350 || nowTime - lastTime > 1000) && (nowTime - masterTime > lastRRI + 100 || nowTime - masterTime < lastRRI - 100)) {
               console.log("線形補間: " + lasty);
               data.push(lasty);
-              dataset.push([nowTime, Math.floor(lasty)]);
+              dataset.push([nowTime.getTime(), Math.floor(lasty)]);
               console.log("push: lasty");
               console.log("RRIデータ数: " + data.length);
               skiptimes += 1;
@@ -130,13 +130,13 @@ function dataCalc() {
                 lasty = y;
                 console.log("線形補間: " + y);
                 data.push(y);
-                dataset.push([nowTime, Math.floor(lasty)]);
+                dataset.push([nowTime.getTime(), Math.floor(lasty)]);
                 console.log("push:  y");
                 console.log("RRIデータ数: " + data.length);
               } else if (lasty != 0 && skiptimes == 0) {
                 console.log("線形補間: " + lasty);
                 data.push(lasty);
-                dataset.push([nowTime, Math.floor(lasty)]);
+                dataset.push([nowTime.getTime(), Math.floor(lasty)]);
                 console.log("push: second lasty");
                 console.log("RRIデータ数: " + data.length);
                 skiptimes += 1;
