@@ -198,4 +198,25 @@ google_module.appendRawdata = function(data) {
   });
 };
 
+google_module.setAnalysisData = function() {
+  sheets.spreadsheets.values.get({
+    auth: auth,
+    spreadsheetId: SPREADSHEET_ID,
+    range: "sheet3!A2!",
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    if (response.values.length > 0) {
+      var responseRRI = [];
+      for (var i = 0; i < response.values.length; i++) {
+        responseRRI[].push(response.values[i]);
+      }
+      console.log("Get RRI");
+      return responseRRI;
+    }
+  });
+}
+
 module.exports = google_module;

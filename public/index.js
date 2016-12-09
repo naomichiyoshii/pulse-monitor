@@ -11,6 +11,10 @@ function stopRRI() {
   socket.emit("stopUpload");
 }
 
+function startFFT() {
+  socket.emit("startAnalysis");
+}
+
 var vchart = Highcharts.chart('rawdata', {
   chart: {
     animation: false,
