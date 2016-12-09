@@ -185,7 +185,8 @@ function dataCalc() {
   });
 }
 function startAnalysis(){
-    var phasors = fft(responseRRI);
+    var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
+    var phasors = fft(fftargs);
     var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
     var magnitudes = fftUtil.fftMag(phasors);
     frequencies.splice(0, 1);
