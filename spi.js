@@ -152,7 +152,7 @@ function dataCalc() {
       }
       if(top.length > 2){
         var total = 0;
-        for(int i=0;i<top.length;i++){
+        for(var i=0;i<top.length;i++){
           total += top[i];
         }
         var ave = total / top.length;
