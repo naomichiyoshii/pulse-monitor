@@ -184,6 +184,7 @@ function dataCalc() {
     }
   });
 }
+
 function startAnalysis(){
     console.log('配列の長さ： ' + responseRRI.length);
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
@@ -217,8 +218,9 @@ function initSocket(server) {
     });
     socket.on('startAnalysis', function(socket) {
       console.log('Start Analysis');
-      responseRRI =  google_module.setAnalysisData();
+      responseRRI =  google_module.setAnalysisData(function(){
       startAnalysis();
+      });
     });
   });
 }

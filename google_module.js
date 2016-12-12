@@ -3,6 +3,8 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
+var responseRRI = [];
+
 var google_module = {};
 
 
@@ -202,20 +204,22 @@ google_module.setAnalysisData = function() {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet3!A2!",
+    range: "sheet3!B1!",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       return;
     }
+    console.log('response.values.length: ' + response.values.length);
     if (response.values.length > 0) {
-      var responseRRI = [];
+      responseRRI = [];
       for (var i = 0; i < response.values.length; i++) {
         responseRRI.push(response.values[i]);
       }
       console.log("Get RRI");
       return responseRRI;
     }
+    callback();
   });
 }
 
