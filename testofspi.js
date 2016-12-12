@@ -187,6 +187,9 @@ function dataCalc() {
 
 function startAnalysis(){
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
+    for(var i = 0;i<fftargs.length;i++){
+      console.log('fftargs： ' + fftargs[i]);
+    }
     console.log('配列の長さ： ' + fftargs.length);
     var phasors = fft(fftargs);
     var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
