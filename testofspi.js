@@ -172,13 +172,13 @@ function dataCalc() {
       }
       if (data.length > 1) {
         var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
-        io.emit("data", args);
-        io.emit("rawData", rawData);
+        //io.emit("data", args);
+        //io.emit("rawData", rawData);
         if(responseRRI.length > 1){
           startAnalysis();
         }
       } else {
-        io.emit("rawData", rawData);
+        //io.emit("rawData", rawData);
       }
     }
   });
