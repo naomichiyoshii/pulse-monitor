@@ -165,5 +165,4 @@ socket.on('data', function(raw_data) {
 socket.on('fft', function(frequencies, magnitudes) {
   fft_chart.xAxis[0].setCategories(frequencies);
   fft_chart.series[0].setData(magnitudes);
-}
-);
+});

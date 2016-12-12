@@ -193,6 +193,7 @@ function startAnalysis(){
     var magnitudes = fftUtil.fftMag(phasors);
     // frequencies.splice(0, 1);
     // magnitudes.splice(0, 1);
+    console.log('パワー配列の長さ： ' + magnitudes.length);
     io.emit("fft", frequencies, magnitudes);
 }
 
