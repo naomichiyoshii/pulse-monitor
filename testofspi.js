@@ -172,38 +172,30 @@ function dataCalc() {
       }
       if (data.length > 1) {
         var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
+        var phasors = fft(args);
+        var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
+        var magnitudes = fftUtil.fftMag(phasors);
         io.emit("data", args);
+        //io.emit("fft", frequencies, magnitudes);
         io.emit("rawData", rawData);
-        if (a == 0) {
-          var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
-          var phasors = fft(fftargs);
-          var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
-          var magnitudes = fftUtil.fftMag(phasors);
-          frequencies.splice(0, 1);
-          magnitudes.splice(0, 1);
-          a += 1;
-        } else if (a == 1) {
-          io.emit("fft", frequencies, magnitudes);
-        }
       } else {
         io.emit("rawData", rawData);
       }
     }
   });
 }
-var a = 2;
 
-function startAnalysis() {
-  if (a == 0) {
+function startAnalysis(){
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
+    console.log('配列の長さ： ' + fftargs.length);
     var phasors = fft(fftargs);
     var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
     var magnitudes = fftUtil.fftMag(phasors);
     frequencies.splice(0, 1);
     magnitudes.splice(0, 1);
-    a += 1;
-  }
-  io.emit("fft", frequencies, magnitudes);
+    // console.log('パワー配列の長さ： ' + magnitudes.length);
+    // console.log('周波数配列の長さ： ' + magnitudes.length);
+    io.emit("fft", frequencies, magnitudes);
 }
 
 function initSocket(server) {
@@ -228,9 +220,9 @@ function initSocket(server) {
     });
     socket.on('startAnalysis', function(socket) {
       console.log('Start Analysis');
-      google_module.setAnalysisData(function(back) {
-        responseRRI = back;
-        a = 0;
+      google_module.setAnalysisData(function(back){
+      responseRRI = back;
+      startAnalysis();
       });
     });
   });
