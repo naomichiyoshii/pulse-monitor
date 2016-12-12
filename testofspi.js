@@ -192,8 +192,6 @@ function dataCalc() {
   });
 }
 
-var a = 0;
-
 function startAnalysis() {
   if (a == 0) {
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
@@ -231,6 +229,7 @@ function initSocket(server) {
       console.log('Start Analysis');
       google_module.setAnalysisData(function(back) {
         responseRRI = back;
+        var a = 0;
       });
     });
   });
