@@ -200,7 +200,7 @@ google_module.appendRawdata = function(data) {
   });
 };
 
-google_module.setAnalysisData = function() {
+google_module.setAnalysisData = function(callback) {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
