@@ -204,7 +204,7 @@ google_module.setAnalysisData = function() {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet3!B!",
+    range: "sheet3!B",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
