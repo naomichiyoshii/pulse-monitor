@@ -195,6 +195,7 @@ function startAnalysis(){
     magnitudes.splice(0, 1);
     // console.log('パワー配列の長さ： ' + magnitudes.length);
     // console.log('周波数配列の長さ： ' + magnitudes.length);
+    console.log(magnitudes[3]);
     var LF = 0;
     var HF = 0;
     for(var i = 0; i < frequencies.length; i++){
