@@ -135,7 +135,7 @@ var fft_chart = Highcharts.chart('fft', {
     title: {
       text: 'power'
     },
-    max: 18000,
+    max: 5000,
     min: 0,
     plotLines: [{
       value: 0,
