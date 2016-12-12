@@ -218,7 +218,8 @@ function initSocket(server) {
     });
     socket.on('startAnalysis', function(socket) {
       console.log('Start Analysis');
-      responseRRI =  google_module.setAnalysisData(function(){
+      google_module.setAnalysisData(function(back){
+      responseRRI = back;
       startAnalysis();
       });
     });

@@ -217,9 +217,8 @@ google_module.setAnalysisData = function() {
         responseRRI.push(response.values[i]);
       }
       console.log("Get RRI");
-      return responseRRI;
     }
-    callback();
+    callback(responseRRI);
   });
 }
 
