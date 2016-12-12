@@ -128,7 +128,7 @@ var fft_chart = Highcharts.chart('fft', {
     plotLines: [{
       value: 0,
       width: 1,
-      color: '#c62d1d'
+      color: '#808080'
     }]
   },
   yAxis: {
@@ -140,7 +140,7 @@ var fft_chart = Highcharts.chart('fft', {
     plotLines: [{
       value: 0,
       width: 1,
-      color: '#808080'
+      color: '#c62d1d'
     }]
   },
   plotOptions: {
