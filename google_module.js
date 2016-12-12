@@ -214,8 +214,7 @@ google_module.setAnalysisData = function(callback) {
     if (response.values.length > 0) {
       responseRRI = [];
       for (var i = 0; i < response.values.length; i++) {
-        responseRRI.push(response.values[i]);
-        console.log("Added:" + response.values[i]);
+        responseRRI.push(parseInt(response.values[i]));
       }
       console.log("Get RRI");
     }
