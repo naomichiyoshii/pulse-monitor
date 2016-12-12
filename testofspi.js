@@ -186,7 +186,7 @@ function dataCalc() {
 }
 
 function startAnalysis(){
-
+    console.log(fft);
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
     console.log('fftargs: ' + fftargs);
     var phasors = fft(fftargs);
