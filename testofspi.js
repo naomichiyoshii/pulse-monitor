@@ -195,6 +195,18 @@ function startAnalysis(){
     magnitudes.splice(0, 1);
     // console.log('パワー配列の長さ： ' + magnitudes.length);
     // console.log('周波数配列の長さ： ' + magnitudes.length);
+    var LF = 0;
+    var HF = 0;
+    for(var i = 0; i < frequencies.length; i++){
+      if(frequencies[i] > 0.05 && frequencies[i] < 0.15){
+        LF += magnitudes[i];
+      }else if(frequencies[i] > 0.15 && frequencies[i] < 0.40){
+        HF += magnitudes[i];
+      }
+    }
+    console.log('LF： ' + LF);
+    console.log('HF： ' + HF);
+    console.log('LF/HF： ' + LF/HF);
     io.emit("fft", frequencies, magnitudes);
 }
 
