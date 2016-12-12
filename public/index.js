@@ -128,14 +128,14 @@ var fft_chart = Highcharts.chart('fft', {
     plotLines: [{
       value: 0,
       width: 1,
-      color: '#808080'
+      color: '#c62d1d'
     }]
   },
   yAxis: {
     title: {
       text: 'power'
     },
-    max: 5000,
+    max: 18000,
     min: 0,
     plotLines: [{
       value: 0,
