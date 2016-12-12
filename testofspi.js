@@ -174,8 +174,16 @@ function dataCalc() {
         var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
         io.emit("data", args);
         io.emit("rawData", rawData);
-        if (responseRRI.length > 1) {
-          startAnalysis();
+        if (a == 0) {
+          var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
+          var phasors = fft(fftargs);
+          var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
+          var magnitudes = fftUtil.fftMag(phasors);
+          frequencies.splice(0, 1);
+          magnitudes.splice(0, 1);
+          a += 1;
+        } else if (a == 1) {
+          io.emit("fft", frequencies, magnitudes);
         }
       } else {
         io.emit("rawData", rawData);

@@ -174,7 +174,7 @@ function dataCalc() {
         var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
         var magnitudes = fftUtil.fftMag(phasors);
         io.emit("data", args);
-        io.emit("fft", frequencies, magnitudes);
+        //io.emit("fft", frequencies, magnitudes);
         io.emit("rawData", rawData);
       } else {
         io.emit("rawData", rawData);
