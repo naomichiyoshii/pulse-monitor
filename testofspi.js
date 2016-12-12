@@ -186,13 +186,13 @@ function dataCalc() {
 }
 
 function startAnalysis(){
-    console.log('配列の長さ： ' + responseRRI.length);
     var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
+    console.log('配列の長さ： ' + fftargs.length);
     var phasors = fft(fftargs);
     var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
     var magnitudes = fftUtil.fftMag(phasors);
-    frequencies.splice(0, 1);
-    magnitudes.splice(0, 1);
+    // frequencies.splice(0, 1);
+    // magnitudes.splice(0, 1);
     io.emit("fft", frequencies, magnitudes);
 }
 
