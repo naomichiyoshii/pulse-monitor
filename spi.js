@@ -175,7 +175,6 @@ function dataCalc() {
         var magnitudes = fftUtil.fftMag(phasors);
         io.emit("data", args);
         //io.emit("fft", frequencies, magnitudes);
-        console.log(magnitudes[0]);
         io.emit("rawData", rawData);
       } else {
         io.emit("rawData", rawData);
