@@ -191,6 +191,7 @@ function dataCalc() {
     }
   });
 }
+var a = 2;
 
 function startAnalysis() {
   if (a == 0) {
@@ -229,7 +230,7 @@ function initSocket(server) {
       console.log('Start Analysis');
       google_module.setAnalysisData(function(back) {
         responseRRI = back;
-        var a = 0;
+        a = 0;
       });
     });
   });
