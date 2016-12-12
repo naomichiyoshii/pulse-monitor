@@ -170,7 +170,6 @@ function dataCalc() {
       }
       if (data.length > 1) {
         var args = data.slice(data.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(data.length))));
-        console.log(args.length);
         var phasors = fft(args);
         var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
         var magnitudes = fftUtil.fftMag(phasors);
