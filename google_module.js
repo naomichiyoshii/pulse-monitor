@@ -204,13 +204,13 @@ google_module.setAnalysisData = function() {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet3!B1",
+    range: "sheet3!B!",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    console.log('response.values: ' + response.values);
+    console.log('response.values.length: ' + response.values.length);
     if (response.values.length > 0) {
       responseRRI = [];
       for (var i = 0; i < response.values.length; i++) {
