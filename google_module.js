@@ -210,7 +210,7 @@ google_module.setAnalysisData = function() {
       console.log('The API returned an error: ' + err);
       return;
     }
-    console.log('response.values.length: ' + response.values.length);
+    console.log('response.values: ' + response.values);
     if (response.values.length > 0) {
       responseRRI = [];
       for (var i = 0; i < response.values.length; i++) {
