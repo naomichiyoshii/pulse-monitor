@@ -205,7 +205,7 @@ google_module.appendFFTData = function(data) {
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
-    range: "sheet13!C2",
+    range: "sheet14!C2",
     resource: {
       values: data
     }
@@ -222,7 +222,7 @@ google_module.setAnalysisData = function(callback) {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet13!B1:B87",
+    range: "sheet14!B1:B79",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
