@@ -104,7 +104,7 @@ function storeToken(token) {
 
 var sheets = google.sheets('v4');
 var auth, activeSheet, raw_activeSheet, sheettitle, rawsheettitle;
-var SPREADSHEET_ID = "1pBJVOQ9XkVZCCbsjObBxTJrhyxYmrQf4wvnfHAI2_Ic";
+var SPREADSHEET_ID = "1_blqESLe2bVW3yUqcXVRejwtizhntQBNv__wv3ZY0ww";
 
 function setAuth(a) {
   auth = a;
@@ -205,7 +205,7 @@ google_module.appendFFTData = function(data) {
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
-    range: "sheet17!C2",
+    range: "sheet1!C2",
     resource: {
       values: data
     }
@@ -222,7 +222,7 @@ google_module.setAnalysisData = function(callback) {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet17!B1:B152",
+    range: "sheet1!B1:B526",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
