@@ -104,7 +104,7 @@ function storeToken(token) {
 
 var sheets = google.sheets('v4');
 var auth, activeSheet, raw_activeSheet, sheettitle, rawsheettitle;
-var SPREADSHEET_ID = "1OwZKbOb8_rUyZvwRvZlz_6z7Q7IPN_glTi6zwjApatY";
+var SPREADSHEET_ID = "1pBJVOQ9XkVZCCbsjObBxTJrhyxYmrQf4wvnfHAI2_Ic";
 
 function setAuth(a) {
   auth = a;
@@ -204,7 +204,7 @@ google_module.setAnalysisData = function(callback) {
   sheets.spreadsheets.values.get({
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
-    range: "sheet1!B1:B526",
+    range: "sheet2!B1:B234",
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
