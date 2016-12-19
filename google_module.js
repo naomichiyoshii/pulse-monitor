@@ -200,6 +200,24 @@ google_module.appendRawdata = function(data) {
   });
 };
 
+google_module.appendFFTData = function(data) {
+  sheets.spreadsheets.values.append({
+    auth: auth,
+    spreadsheetId: SPREADSHEET_ID,
+    valueInputOption: "USER_ENTERED",
+    range: activeSheet + "!C2",
+    resource: {
+      values: data
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    console.log("Appennded");
+  });
+};
+
 google_module.setAnalysisData = function(callback) {
   sheets.spreadsheets.values.get({
     auth: auth,

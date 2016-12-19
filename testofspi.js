@@ -185,12 +185,11 @@ function dataCalc() {
   });
 }
 
-var FFTresult
-
-function startAnalysis(){
-    var fftargs = responseRRI.slice(responseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
-    console.log(Math.pow(2, Math.floor(Math.LOG2E * Math.log(responseRRI.length))));
-    console.log(fftargs.length);
+function startAnalysis() {
+  var FFTresult = [];
+  for (var j = 2; j < responseRRI.length; j++) {
+    var sliceResponseRRI = responseRRI.slice(0, j);
+    var fftargs = sliceResponseRRI.slice(sliceResponseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(sliceResponseRRI.length))));
     var phasors = fft(fftargs);
     var frequencies = fftUtil.fftFreq(phasors, 1); // Sample rate and coef is just used for length, and frequency step
     var magnitudes = fftUtil.fftMag(phasors);
@@ -198,17 +197,21 @@ function startAnalysis(){
     magnitudes.splice(0, 1);
     var LF = 0;
     var HF = 0;
-    for(var i = 0; i < frequencies.length; i++){
-      if(frequencies[i] > 0.05 && frequencies[i] < 0.15){
+    for (var i = 0; i < frequencies.length; i++) {
+      if (frequencies[i] > 0.05 && frequencies[i] < 0.15) {
         LF += magnitudes[i];
-      }else if(frequencies[i] > 0.15 && frequencies[i] < 0.40){
+      } else if (frequencies[i] > 0.15 && frequencies[i] < 0.40) {
         HF += magnitudes[i];
       }
     }
-    console.log('LF： ' + LF);
-    console.log('HF： ' + HF);
-    console.log('LF/HF： ' + LF/HF);
-    io.emit("fft", frequencies, magnitudes);
+    FFTresult.push([LF, HF,  floatFormat( LF/HF, 4 )]);
+  }
+  google_module.appendFFTData(FFTresult);
+}
+
+function floatFormat( number, n ) {
+	var _pow = Math.pow( 10 , n ) ;
+	return Math.round( number * _pow ) / _pow ;
 }
 
 function initSocket(server) {
@@ -233,9 +236,9 @@ function initSocket(server) {
     });
     socket.on('startAnalysis', function(socket) {
       console.log('Start Analysis');
-      google_module.setAnalysisData(function(back){
-      responseRRI = back;
-      startAnalysis();
+      google_module.setAnalysisData(function(back) {
+        responseRRI = back;
+        startAnalysis();
       });
     });
   });
