@@ -205,7 +205,7 @@ google_module.appendFFTData = function(data) {
     auth: auth,
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
-    range: activeSheet + "!C2",
+    range: "sheet2!C2",
     resource: {
       values: data
     }
