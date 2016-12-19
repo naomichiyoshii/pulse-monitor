@@ -187,7 +187,7 @@ function dataCalc() {
 
 function startAnalysis() {
   var FFTresult = [];
-  for (var j = 2; j < responseRRI.length; j++) {
+  for (var j = 2; j <= responseRRI.length; j++) {
     var sliceResponseRRI = responseRRI.slice(0, j);
     var fftargs = sliceResponseRRI.slice(sliceResponseRRI.length - Math.pow(2, Math.floor(Math.LOG2E * Math.log(sliceResponseRRI.length))));
     var phasors = fft(fftargs);
